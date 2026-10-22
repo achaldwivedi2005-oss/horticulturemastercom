@@ -13,7 +13,7 @@ export function PageHeader({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-hero">
+    <section className="relative -mt-16 overflow-hidden bg-gradient-hero pt-16 md:-mt-18 md:pt-18">
       <div className="pointer-events-none absolute inset-0 bg-dots opacity-40 [mask-image:linear-gradient(to_bottom,black,transparent)]" />
       <div className="container-page relative pb-14 pt-10 md:pb-20 md:pt-16">
         <Reveal>
