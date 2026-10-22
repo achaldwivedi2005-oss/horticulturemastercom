@@ -24,8 +24,9 @@ export const site = {
    * empty links render as "Link coming soon" instead of a dead button.
    */
   social: {
-    telegram: "",
-    whatsapp: "",
+    telegramChannel: "https://t.me/Horticulturemaster",
+    telegramGroup: "https://t.me/horticulturmasterquiz",
+    whatsapp: "https://chat.whatsapp.com/KLNOleZhkCv1AzzI6nhDg0",
     youtube: "",
   },
 } as const;

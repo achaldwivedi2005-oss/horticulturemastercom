@@ -1,4 +1,4 @@
-import { Send, MessageCircle, Youtube, ArrowUpRight } from "lucide-react";
+import { Send, MessageCircle, Youtube, ArrowUpRight, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -7,17 +7,18 @@ import { StatusBadge } from "./StatusBadge";
 type Channel = { key: keyof typeof site.social; name: string; blurb: string; icon: LucideIcon };
 
 export const channels: Channel[] = [
-  { key: "telegram", name: "Telegram", blurb: "Daily MCQs, PDFs & exam alerts", icon: Send },
-  { key: "whatsapp", name: "WhatsApp", blurb: "Quick updates & job notifications", icon: MessageCircle },
+  { key: "telegramChannel", name: "Telegram channel", blurb: "Updates, PDFs & exam alerts", icon: Send },
+  { key: "telegramGroup", name: "Telegram quiz group", blurb: "Daily MCQs & discussion", icon: Users },
+  { key: "whatsapp", name: "WhatsApp group", blurb: "Quick updates & job notifications", icon: MessageCircle },
   { key: "youtube", name: "YouTube", blurb: "Concept classes & revision videos", icon: Youtube },
 ];
 
 /** Large community cards. Channels without a URL show a "coming soon" state. */
 export function SocialCards({ className }: { className?: string }) {
   return (
-    <div className={cn("grid gap-4 sm:grid-cols-3", className)}>
+    <div className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)}>
       {channels.map(({ key, name, blurb, icon: Icon }) => {
-        const href = site.social[key];
+        const href: string = site.social[key];
         const inner = (
           <>
             <div className="flex items-start justify-between">
