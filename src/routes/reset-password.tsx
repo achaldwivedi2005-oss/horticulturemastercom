@@ -37,7 +37,7 @@ function ResetPasswordPage() {
       if (event === "PASSWORD_RECOVERY") setReady(true);
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session && (isRecovery || session)) setReady(true);
+      if (session || isRecovery) setReady(!!session);
     });
     return () => data.subscription.unsubscribe();
   }, []);

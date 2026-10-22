@@ -58,7 +58,7 @@ export function SocialIcons() {
   return (
     <div className="flex gap-2">
       {channels.map(({ key, name, icon: Icon }) => {
-        const href = site.social[key];
+        const href: string = site.social[key];
         const cls = "grid size-10 place-items-center rounded-full border border-border bg-card transition-colors";
         return href ? (
           <a key={key} href={href} target="_blank" rel="noopener noreferrer" aria-label={name} className={cn(cls, "hover:border-primary hover:text-primary")}>
