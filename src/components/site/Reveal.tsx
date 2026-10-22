@@ -38,7 +38,7 @@ export function Reveal({ children, className, delay = 0, as: Tag = "div" }: Reve
       ref={ref}
       data-visible={visible}
       className={cn("reveal", className)}
-      style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
+      style={{ "--reveal-delay": `${delay}ms` } as CSSProperties}
     >
       {children}
     </Tag>
