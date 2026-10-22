@@ -35,7 +35,7 @@ const values = [
 
 const roadmap: { stage: string; title: string; status: "live" | "soon" }[] = [
   { stage: "Stage 1", title: "Website, design & information pages", status: "live" },
-  { stage: "Stage 2", title: "Student accounts, dashboard & admin access", status: "soon" },
+  { stage: "Stage 2", title: "Student accounts, dashboard & admin access", status: "live" },
   { stage: "Stage 3", title: "Online quiz portal with analytics", status: "soon" },
   { stage: "Stage 4", title: "Study materials library", status: "soon" },
   { stage: "Stage 5", title: "Agriculture jobs & notifications portal", status: "soon" },
