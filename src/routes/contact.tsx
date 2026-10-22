@@ -1,8 +1,13 @@
+import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { CheckCircle2, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
+import { contactSchema } from "@/lib/profile-schema";
 import { PageHeader } from "@/components/site/PageHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { SocialCards } from "@/components/site/SocialLinks";
-import { StatusBadge } from "@/components/site/StatusBadge";
+import { FieldError, toFieldErrors } from "@/components/account/ProfileFields";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,6 +28,25 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
+  const { user } = useAuth();
+  const [values, setValues] = useState({ name: "", email: "", message: "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    const parsed = contactSchema.safeParse(values);
+    if (!parsed.success) return setErrors(toFieldErrors(parsed.error.issues));
+    setErrors({});
+    setBusy(true);
+    const { error } = await supabase.from("contact_messages").insert({ ...parsed.data, user_id: user?.id ?? null });
+    setBusy(false);
+    if (error) return setErrors({ form: "Your message couldn't be sent. Please try again." });
+    setSent(true);
+    setValues({ name: "", email: "", message: "" });
+  };
+
   return (
     <>
       <PageHeader
@@ -32,35 +56,65 @@ function ContactPage() {
       />
       <section className="container-page grid gap-8 py-14 md:py-20 lg:grid-cols-[1.1fr_1fr]">
         <Reveal className="rounded-3xl border border-border bg-card p-6 shadow-soft sm:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-2xl font-semibold">Send a message</h2>
-            <StatusBadge status="soon" label="Form opens in Stage 2" />
-          </div>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Message delivery is being connected. Until then, please reach us through the community channels.
-          </p>
-          <form className="mt-6 grid gap-4" onSubmit={(e) => e.preventDefault()} aria-describedby="form-status">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Your name" disabled />
+          <h2 className="text-2xl font-semibold">Send a message</h2>
+          <p className="mt-2 text-sm text-muted-foreground">Our team reads every message.</p>
+          {sent ? (
+            <div className="mt-6 flex flex-col items-center rounded-2xl bg-secondary p-8 text-center">
+              <CheckCircle2 className="size-10 text-primary" />
+              <p className="mt-4 font-semibold">Message sent — thank you!</p>
+              <p className="mt-1 text-sm text-muted-foreground">We'll get back to you by email.</p>
+              <Button variant="soft" className="mt-5" onClick={() => setSent(false)}>
+                Send another
+              </Button>
+            </div>
+          ) : (
+            <form className="mt-6 grid gap-4" onSubmit={submit} noValidate>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    autoComplete="name"
+                    maxLength={100}
+                    value={values.name}
+                    onChange={(e) => setValues((v) => ({ ...v, name: e.target.value }))}
+                    aria-invalid={!!errors.name}
+                  />
+                  <FieldError message={errors.name} />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    maxLength={255}
+                    value={values.email}
+                    onChange={(e) => setValues((v) => ({ ...v, email: e.target.value }))}
+                    aria-invalid={!!errors.email}
+                  />
+                  <FieldError message={errors.email} />
+                </div>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="you@example.com" disabled />
+                <Label htmlFor="message">Message</Label>
+                <Textarea
+                  id="message"
+                  rows={5}
+                  maxLength={2000}
+                  placeholder="How can we help?"
+                  value={values.message}
+                  onChange={(e) => setValues((v) => ({ ...v, message: e.target.value }))}
+                  aria-invalid={!!errors.message}
+                />
+                <FieldError message={errors.message} />
               </div>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="message">Message</Label>
-              <Textarea id="message" rows={5} placeholder="How can we help?" disabled />
-            </div>
-            <Button type="submit" variant="hero" size="lg" disabled className="justify-self-start">
-              Send message
-            </Button>
-            <p id="form-status" className="sr-only">
-              The contact form is not active yet.
-            </p>
-          </form>
+              <FieldError message={errors.form} />
+              <Button type="submit" variant="hero" size="lg" disabled={busy} className="justify-self-start">
+                {busy && <Loader2 className="animate-spin" />} Send message
+              </Button>
+            </form>
+          )}
         </Reveal>
         <Reveal delay={100} className="rounded-3xl bg-gradient-deep p-6 text-deep-foreground sm:p-8">
           <h2 className="text-2xl font-semibold">Community channels</h2>
