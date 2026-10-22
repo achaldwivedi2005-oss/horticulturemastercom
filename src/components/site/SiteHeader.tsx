@@ -7,6 +7,7 @@ import { mainNav, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
+import { AccountMenu } from "./AccountMenu";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -45,7 +46,8 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-1.5">
           <ThemeToggle />
-          <Button asChild variant="hero" size="lg" className="hidden sm:inline-flex">
+          <AccountMenu />
+          <Button asChild variant="hero" size="lg" className="hidden md:inline-flex">
             <Link to="/quizzes">
               Start Learning <ArrowRight />
             </Link>

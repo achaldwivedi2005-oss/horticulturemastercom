@@ -13,7 +13,9 @@ import {
   Target,
   BarChart3,
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import heroImage from "@/assets/hero-horticulture.jpg";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeading } from "@/components/site/SectionHeading";
@@ -184,31 +186,49 @@ function ExamCategories() {
 /* ---------------------------------- Stats ---------------------------------- */
 
 const statItems = [
-  { label: "Quizzes", icon: ClipboardCheck },
-  { label: "Questions", icon: FileQuestion },
-  { label: "Students", icon: Users },
-  { label: "Study materials", icon: Library },
-];
+  { key: "quizzes", label: "Quizzes", icon: ClipboardCheck },
+  { key: "questions", label: "Questions", icon: FileQuestion },
+  { key: "students", label: "Registered students", icon: Users },
+  { key: "materials", label: "Study materials", icon: Library },
+] as const;
 
 function Stats() {
+  // Real aggregate counts only; sections that don't exist yet stay "—".
+  const { data } = useQuery({
+    queryKey: ["public-stats"],
+    queryFn: async () => {
+      const { data: stats, error } = await supabase.rpc("get_public_stats");
+      if (error) throw error;
+      return stats as { students?: number } | null;
+    },
+    staleTime: 60_000,
+  });
+  const values: Partial<Record<(typeof statItems)[number]["key"], number>> = { students: data?.students };
+
   return (
     <section className="container-page">
       <Reveal className="relative overflow-hidden rounded-3xl bg-gradient-deep p-6 text-deep-foreground sm:p-10">
         <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-accent/20 blur-3xl" />
         <div className="relative flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-2xl font-semibold sm:text-3xl">Platform at a glance</h2>
-          <p className="text-sm text-deep-foreground/70">Live counts appear here once content is published.</p>
+          <p className="text-sm text-deep-foreground/70">Live counts — "—" means that section hasn't launched yet.</p>
         </div>
         <div className="relative mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {statItems.map(({ label, icon: Icon }) => (
-            <div key={label} className="rounded-2xl border border-deep-foreground/15 bg-deep-foreground/5 p-5 backdrop-blur">
-              <Icon className="size-5 text-accent" />
-              <p className="mt-4 font-display text-4xl font-semibold" aria-label={`${label}: not yet available`}>
-                —
-              </p>
-              <p className="mt-1 text-sm text-deep-foreground/75">{label}</p>
-            </div>
-          ))}
+          {statItems.map(({ key, label, icon: Icon }) => {
+            const v = values[key];
+            return (
+              <div key={key} className="rounded-2xl border border-deep-foreground/15 bg-deep-foreground/5 p-5 backdrop-blur">
+                <Icon className="size-5 text-accent" />
+                <p
+                  className="mt-4 font-display text-4xl font-semibold"
+                  aria-label={v === undefined ? `${label}: not yet available` : `${label}: ${v}`}
+                >
+                  {v === undefined ? "—" : v.toLocaleString("en-IN")}
+                </p>
+                <p className="mt-1 text-sm text-deep-foreground/75">{label}</p>
+              </div>
+            );
+          })}
         </div>
       </Reveal>
     </section>
