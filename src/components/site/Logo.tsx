@@ -24,7 +24,6 @@ export function LogoBadge({ className }: { className?: string | undefined }) {
       alt="Horticulture Master logo"
       width={640}
       height={640}
-      loading="lazy"
       className={cn("rounded-full bg-card object-contain", className)}
     />
   );
