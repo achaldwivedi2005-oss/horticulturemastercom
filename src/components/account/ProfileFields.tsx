@@ -29,7 +29,7 @@ export function ProfileFields({
 }: {
   values: ProfileValues;
   onChange: (patch: Partial<ProfileValues>) => void;
-  errors: Partial<Record<keyof ProfileValues, string>>;
+  errors: Partial<Record<string, string | undefined>>;
   idPrefix?: string;
 }) {
   return (

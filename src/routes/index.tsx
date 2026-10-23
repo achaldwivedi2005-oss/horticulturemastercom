@@ -203,7 +203,7 @@ function Stats() {
     },
     staleTime: 60_000,
   });
-  const values: Partial<Record<(typeof statItems)[number]["key"], number>> = { students: data?.students };
+  const values: Partial<Record<(typeof statItems)[number]["key"], number | undefined>> = { students: data?.students };
 
   return (
     <section className="container-page">

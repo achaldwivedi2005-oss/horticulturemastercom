@@ -207,7 +207,7 @@ function SignUpForm() {
   const [profile, setProfile] = useState<ProfileValues>(emptyProfile);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof ProfileValues | "email" | "password" | "form", string>>>({});
   const [busy, setBusy] = useState(false);
   const [sentTo, setSentTo] = useState<string>();
 
@@ -215,7 +215,7 @@ function SignUpForm() {
     e.preventDefault();
     const parsed = signUpSchema.safeParse({ ...profile, email, password });
     if (!parsed.success) {
-      setErrors(toFieldErrors(parsed.error.issues));
+      setErrors(toFieldErrors<keyof ProfileValues | "email" | "password" | "form">(parsed.error.issues));
       return;
     }
     setErrors({});

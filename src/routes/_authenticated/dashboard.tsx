@@ -198,7 +198,7 @@ function DashboardPage() {
   );
 }
 
-function ProfileRow({ icon: Icon, label, value }: { icon: typeof Target; label: string; value?: string | null }) {
+function ProfileRow({ icon: Icon, label, value }: { icon: typeof Target; label: string; value?: string | null | undefined }) {
   return (
     <div className="flex items-start gap-3">
       <Icon className="mt-0.5 size-4 shrink-0 text-primary" />
@@ -223,7 +223,7 @@ function EditProfileDialog({
 }) {
   const queryClient = useQueryClient();
   const [values, setValues] = useState<ProfileValues>(initial);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof ProfileValues, string>>>({});
 
   const mutation = useMutation({
     mutationFn: async (v: ProfileValues) => {
@@ -250,7 +250,7 @@ function EditProfileDialog({
   const submit = (e: FormEvent) => {
     e.preventDefault();
     const parsed = profileSchema.safeParse(values);
-    if (!parsed.success) return setErrors(toFieldErrors(parsed.error.issues));
+    if (!parsed.success) return setErrors(toFieldErrors<keyof ProfileValues>(parsed.error.issues));
     setErrors({});
     mutation.mutate(values);
   };

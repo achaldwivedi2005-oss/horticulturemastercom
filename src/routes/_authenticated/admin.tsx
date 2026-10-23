@@ -134,9 +134,9 @@ function Stat({
 }: {
   icon: typeof Users;
   label: string;
-  value?: number;
-  loading?: boolean;
-  soon?: boolean;
+  value?: number | undefined;
+  loading?: boolean | undefined;
+  soon?: boolean | undefined;
 }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-soft">
