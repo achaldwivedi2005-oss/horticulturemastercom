@@ -14,6 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_allowlist: {
+        Row: {
+          email: string
+        }
+        Insert: {
+          email: string
+        }
+        Update: {
+          email?: string
+        }
+        Relationships: []
+      }
+      chat_messages: {
+        Row: {
+          created_at: string
+          id: string
+          message: Json
+          role: string
+          thread_id: string
+          ui_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: Json
+          role: string
+          thread_id: string
+          ui_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: Json
+          role?: string
+          thread_id?: string
+          ui_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "chat_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_threads: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -46,8 +120,10 @@ export type Database = {
           created_at: string
           email: string | null
           full_name: string
+          goal: string | null
           id: string
           phone: string | null
+          preparation_from: string | null
           state: string | null
           target_exam: string | null
           university: string | null
@@ -57,8 +133,10 @@ export type Database = {
           created_at?: string
           email?: string | null
           full_name?: string
+          goal?: string | null
           id: string
           phone?: string | null
+          preparation_from?: string | null
           state?: string | null
           target_exam?: string | null
           university?: string | null
@@ -68,8 +146,10 @@ export type Database = {
           created_at?: string
           email?: string | null
           full_name?: string
+          goal?: string | null
           id?: string
           phone?: string | null
+          preparation_from?: string | null
           state?: string | null
           target_exam?: string | null
           university?: string | null
