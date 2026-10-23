@@ -150,7 +150,7 @@ function Stat({
 
 type StudentRow = NonNullable<ReturnType<typeof useStudents>["data"]>[number];
 
-function StudentsTable({ rows, loading }: { rows?: StudentRow[]; loading: boolean }) {
+function StudentsTable({ rows, loading }: { rows?: StudentRow[] | undefined; loading: boolean }) {
   if (loading) return <p className="text-sm text-muted-foreground">Loading…</p>;
   if (!rows?.length) return <EmptyState icon={Users} title="No students yet" description="New sign-ups will appear here." />;
   return (
@@ -188,7 +188,7 @@ function StudentsTable({ rows, loading }: { rows?: StudentRow[]; loading: boolea
 
 type MessageRow = NonNullable<ReturnType<typeof useMessages>["data"]>[number];
 
-function MessagesList({ rows, loading }: { rows?: MessageRow[]; loading: boolean }) {
+function MessagesList({ rows, loading }: { rows?: MessageRow[] | undefined; loading: boolean }) {
   const queryClient = useQueryClient();
   const del = useMutation({
     mutationFn: async (id: string) => {

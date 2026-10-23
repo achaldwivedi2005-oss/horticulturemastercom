@@ -29,7 +29,7 @@ export function ProfileFields({
 }: {
   values: ProfileValues;
   onChange: (patch: Partial<ProfileValues>) => void;
-  errors: Partial<Record<string, string | undefined>>;
+  errors: { full_name?: string | undefined; target_exam?: string | undefined; university?: string | undefined; state?: string | undefined; phone?: string | undefined };
   idPrefix?: string;
 }) {
   return (
