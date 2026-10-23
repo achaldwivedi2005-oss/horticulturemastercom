@@ -39,7 +39,7 @@ export function AccountMenu() {
     );
   }
 
-  const name = (user.user_metadata?.full_name as string) || (user.user_metadata?.name as string) || user.email || "";
+  const name = (user.user_metadata?.["full_name"] as string) || (user.user_metadata?.["name"] as string) || user.email || "";
 
   return (
     <DropdownMenu>

@@ -121,7 +121,7 @@ function AuthPage() {
   );
 }
 
-function GoogleButton({ label, redirect }: { label: string; redirect?: string }) {
+function GoogleButton({ label, redirect }: { label: string; redirect?: string | undefined }) {
   const [busy, setBusy] = useState(false);
   const onClick = async () => {
     setBusy(true);
