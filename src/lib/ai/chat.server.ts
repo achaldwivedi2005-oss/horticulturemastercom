@@ -221,16 +221,13 @@ export async function handleChat(request: Request) {
     },
     onFinish: async ({ responseMessage }) => {
       if (!caller || !body.threadId || !responseMessage?.parts?.length) return;
-      const { error } = await caller.supabase.from("chat_messages").upsert(
-        {
-          thread_id: body.threadId,
-          user_id: caller.userId,
-          ui_id: responseMessage.id || generateId(),
-          role: "assistant",
-          message: responseMessage as never,
-        },
-        { onConflict: "thread_id,ui_id" },
-      );
+      const { error } = await caller.supabase.from("chat_messages").insert({
+        thread_id: body.threadId,
+        user_id: caller.userId,
+        ui_id: responseMessage.id || generateId(),
+        role: "assistant",
+        message: responseMessage as never,
+      });
       if (error) console.error("chat: failed to save assistant message", error);
     },
   });
