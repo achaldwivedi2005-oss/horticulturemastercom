@@ -15,7 +15,7 @@ export type ProfileValues = {
 
 export const emptyProfile: ProfileValues = { full_name: "", target_exam: "", university: "", state: "", phone: "" };
 
-export function FieldError({ message }: { message?: string }) {
+export function FieldError({ message }: { message?: string | undefined }) {
   if (!message) return null;
   return <p className="text-xs font-medium text-destructive">{message}</p>;
 }
@@ -29,7 +29,7 @@ export function ProfileFields({
 }: {
   values: ProfileValues;
   onChange: (patch: Partial<ProfileValues>) => void;
-  errors: Partial<Record<keyof ProfileValues, string>>;
+  errors: { full_name?: string | undefined; target_exam?: string | undefined; university?: string | undefined; state?: string | undefined; phone?: string | undefined };
   idPrefix?: string;
 }) {
   return (
@@ -111,11 +111,11 @@ export function ProfileFields({
 }
 
 /** Turns a zod error into a field → message map. */
-export function toFieldErrors(issues: { path: (string | number)[]; message: string }[]) {
+export function toFieldErrors<K extends string = string>(issues: { path: (string | number)[]; message: string }[]): Partial<Record<K, string>> {
   const out: Record<string, string> = {};
   for (const i of issues) {
     const k = String(i.path[0]);
     if (!out[k]) out[k] = i.message;
   }
-  return out;
+  return out as Partial<Record<K, string>>;
 }

@@ -66,7 +66,7 @@ function AuthPage() {
         <img src={heroImage} alt="" width={1280} height={1440} className="absolute inset-0 size-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/40 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-10 text-deep-foreground">
-          <LogoMark className="size-12" />
+          <LogoMark className="size-16 rounded-2xl bg-card/90 p-1.5" />
           <h2 className="mt-6 text-4xl font-semibold leading-tight">Your preparation, all in one place.</h2>
           <p className="mt-3 max-w-md text-deep-foreground/80">
             Track quiz scores, accuracy and bookmarked questions as you prepare for CUET-PG, ICAR JRF/SRF and ASRB NET.
@@ -121,7 +121,7 @@ function AuthPage() {
   );
 }
 
-function GoogleButton({ label, redirect }: { label: string; redirect?: string }) {
+function GoogleButton({ label, redirect }: { label: string; redirect?: string | undefined }) {
   const [busy, setBusy] = useState(false);
   const onClick = async () => {
     setBusy(true);
@@ -207,7 +207,7 @@ function SignUpForm() {
   const [profile, setProfile] = useState<ProfileValues>(emptyProfile);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof ProfileValues | "email" | "password" | "form", string>>>({});
   const [busy, setBusy] = useState(false);
   const [sentTo, setSentTo] = useState<string>();
 
@@ -215,7 +215,7 @@ function SignUpForm() {
     e.preventDefault();
     const parsed = signUpSchema.safeParse({ ...profile, email, password });
     if (!parsed.success) {
-      setErrors(toFieldErrors(parsed.error.issues));
+      setErrors(toFieldErrors<keyof ProfileValues | "email" | "password" | "form">(parsed.error.issues));
       return;
     }
     setErrors({});

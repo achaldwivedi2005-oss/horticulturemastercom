@@ -30,14 +30,14 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   const { user } = useAuth();
   const [values, setValues] = useState({ name: "", email: "", message: "" });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<"name" | "email" | "message" | "form", string>>>({});
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     const parsed = contactSchema.safeParse(values);
-    if (!parsed.success) return setErrors(toFieldErrors(parsed.error.issues));
+    if (!parsed.success) return setErrors(toFieldErrors<"name" | "email" | "message" | "form">(parsed.error.issues));
     setErrors({});
     setBusy(true);
     const { error } = await supabase.from("contact_messages").insert({ ...parsed.data, user_id: user?.id ?? null });

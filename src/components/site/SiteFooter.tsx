@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { exams, mainNav, site } from "@/lib/site";
-import { Logo } from "./Logo";
+import { LogoBadge } from "./Logo";
 import { SocialIcons } from "./SocialLinks";
 
 export function SiteFooter() {
@@ -8,7 +8,7 @@ export function SiteFooter() {
     <footer className="border-t border-border bg-muted/40">
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
         <div className="max-w-sm">
-          <Logo />
+          <LogoBadge className="size-28 border border-border shadow-soft" />
           <p className="mt-4 text-sm text-muted-foreground">{site.shortDescription}</p>
           <div className="mt-5">
             <SocialIcons />
