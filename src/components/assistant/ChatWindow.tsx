@@ -141,7 +141,9 @@ export function ChatWindow({
                           {part.text}
                         </p>
                       ) : (
-                        <MessageResponse key={key}>{part.text}</MessageResponse>
+                        <MessageResponse key={key} className="[&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5">
+                          {part.text}
+                        </MessageResponse>
                       );
                     }
                     if (part.type === "reasoning" && part.text) {
