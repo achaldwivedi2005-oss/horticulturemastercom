@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JobsRouteImport } from './routes/jobs'
@@ -21,6 +22,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthenticatedChatThreadIdRouteImport } from './routes/_authenticated/chat.$threadId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,6 +36,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -81,10 +88,17 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedChatThreadIdRoute =
+  AuthenticatedChatThreadIdRouteImport.update({
+    id: '/chat/$threadId',
+    path: '/chat/$threadId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/jobs': typeof JobsRoute
@@ -94,10 +108,12 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/api/chat': typeof ApiChatRoute
+  '/chat/$threadId': typeof AuthenticatedChatThreadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/jobs': typeof JobsRoute
@@ -107,12 +123,14 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/api/chat': typeof ApiChatRoute
+  '/chat/$threadId': typeof AuthenticatedChatThreadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/jobs': typeof JobsRoute
@@ -122,12 +140,14 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/api/chat': typeof ApiChatRoute
+  '/_authenticated/chat/$threadId': typeof AuthenticatedChatThreadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/assistant'
     | '/auth'
     | '/contact'
     | '/jobs'
@@ -137,10 +157,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/api/chat'
+    | '/chat/$threadId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/assistant'
     | '/auth'
     | '/contact'
     | '/jobs'
@@ -150,11 +172,13 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/api/chat'
+    | '/chat/$threadId'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/about'
+    | '/assistant'
     | '/auth'
     | '/contact'
     | '/jobs'
@@ -164,12 +188,14 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/api/chat'
+    | '/_authenticated/chat/$threadId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   JobsRoute: typeof JobsRoute
@@ -200,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -265,17 +298,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/chat/$threadId': {
+      id: '/_authenticated/chat/$threadId'
+      path: '/chat/$threadId'
+      fullPath: '/chat/$threadId'
+      preLoaderRoute: typeof AuthenticatedChatThreadIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedChatThreadIdRoute: typeof AuthenticatedChatThreadIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedChatThreadIdRoute: AuthenticatedChatThreadIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -285,6 +327,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  AssistantRoute: AssistantRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   JobsRoute: JobsRoute,

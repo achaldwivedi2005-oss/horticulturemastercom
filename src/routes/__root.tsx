@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -127,6 +128,9 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { pathname } = useLocation();
+  // Full-height chat screens don't show the site footer.
+  const isChat = pathname.startsWith("/assistant") || pathname.startsWith("/chat/");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -143,7 +147,7 @@ function RootComponent() {
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
           </main>
-          <SiteFooter />
+          {!isChat && <SiteFooter />}
         </div>
         <Toaster />
       </AuthProvider>
