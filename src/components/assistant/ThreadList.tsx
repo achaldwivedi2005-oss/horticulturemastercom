@@ -31,7 +31,10 @@ export function ThreadList({ userId, activeId, onNavigate }: { userId: string; a
 
   const remove = async (id: string) => {
     const { error } = await supabase.from("chat_threads").delete().eq("id", id);
-    if (error) return toast.error("Couldn't delete the chat.");
+    if (error) {
+      toast.error("Couldn't delete the chat.");
+      return;
+    }
     await queryClient.invalidateQueries({ queryKey: ["chat-threads", userId] });
     if (id === activeId) navigate({ to: "/assistant" });
   };
