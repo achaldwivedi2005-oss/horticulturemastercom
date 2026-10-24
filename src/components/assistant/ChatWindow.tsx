@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { toast } from "sonner";
 import { LogIn, UserCheck } from "lucide-react";
@@ -52,10 +53,16 @@ export function ChatWindow({
     [threadId, guest],
   );
 
+  const queryClient = useQueryClient();
   const { messages, sendMessage, status, stop } = useChat({
     id: threadId ?? "guest",
     messages: initialMessages,
     transport,
+    onFinish: () => {
+      if (!threadId) return;
+      void queryClient.invalidateQueries({ queryKey: ["chat-threads"] });
+      void queryClient.invalidateQueries({ queryKey: ["chat-messages", threadId] });
+    },
     onError: (error) => {
       let msg = error.message;
       try {
