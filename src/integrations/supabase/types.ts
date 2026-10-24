@@ -115,6 +115,179 @@ export type Database = {
         }
         Relationships: []
       }
+      job_monitor_runs: {
+        Row: {
+          errors: Json
+          finished_at: string | null
+          id: string
+          new_postings: number
+          sources_checked: number
+          started_at: string
+          trigger: string
+        }
+        Insert: {
+          errors?: Json
+          finished_at?: string | null
+          id?: string
+          new_postings?: number
+          sources_checked?: number
+          started_at?: string
+          trigger?: string
+        }
+        Update: {
+          errors?: Json
+          finished_at?: string | null
+          id?: string
+          new_postings?: number
+          sources_checked?: number
+          started_at?: string
+          trigger?: string
+        }
+        Relationships: []
+      }
+      job_monitor_settings: {
+        Row: {
+          alert_mode: string
+          id: number
+          last_run_at: string | null
+          scan_interval_hours: number
+          telegram_chat_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          alert_mode?: string
+          id?: number
+          last_run_at?: string | null
+          scan_interval_hours?: number
+          telegram_chat_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alert_mode?: string
+          id?: number
+          last_run_at?: string | null
+          scan_interval_hours?: number
+          telegram_chat_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      job_postings: {
+        Row: {
+          age_limit: string | null
+          alerted_at: string | null
+          apply_url: string | null
+          categories: string[]
+          created_at: string
+          deadline: string | null
+          fingerprint: string
+          id: string
+          institute: string | null
+          location: string | null
+          notification_url: string | null
+          published_date: string | null
+          qualification: string | null
+          salary: string | null
+          source_id: string | null
+          source_url: string | null
+          status: string
+          title: string
+          updated_at: string
+          vacancies: string | null
+        }
+        Insert: {
+          age_limit?: string | null
+          alerted_at?: string | null
+          apply_url?: string | null
+          categories?: string[]
+          created_at?: string
+          deadline?: string | null
+          fingerprint: string
+          id?: string
+          institute?: string | null
+          location?: string | null
+          notification_url?: string | null
+          published_date?: string | null
+          qualification?: string | null
+          salary?: string | null
+          source_id?: string | null
+          source_url?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          vacancies?: string | null
+        }
+        Update: {
+          age_limit?: string | null
+          alerted_at?: string | null
+          apply_url?: string | null
+          categories?: string[]
+          created_at?: string
+          deadline?: string | null
+          fingerprint?: string
+          id?: string
+          institute?: string | null
+          location?: string | null
+          notification_url?: string | null
+          published_date?: string | null
+          qualification?: string | null
+          salary?: string | null
+          source_id?: string | null
+          source_url?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          vacancies?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_postings_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "job_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_sources: {
+        Row: {
+          active: boolean
+          content_hash: string | null
+          created_at: string
+          id: string
+          last_checked_at: string | null
+          last_error: string | null
+          last_status: string | null
+          name: string
+          organisation_type: string
+          url: string
+        }
+        Insert: {
+          active?: boolean
+          content_hash?: string | null
+          created_at?: string
+          id?: string
+          last_checked_at?: string | null
+          last_error?: string | null
+          last_status?: string | null
+          name: string
+          organisation_type?: string
+          url: string
+        }
+        Update: {
+          active?: boolean
+          content_hash?: string | null
+          created_at?: string
+          id?: string
+          last_checked_at?: string | null
+          last_error?: string | null
+          last_status?: string | null
+          name?: string
+          organisation_type?: string
+          url?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

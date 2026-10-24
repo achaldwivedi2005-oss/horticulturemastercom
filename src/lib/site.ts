@@ -23,6 +23,8 @@ export const site = {
    * Community links. Leave empty until the real channel URL is available —
    * empty links render as "Link coming soon" instead of a dead button.
    */
+  /** Public Google Drive folder whose PDFs power the study material library. */
+  driveFolderId: "1rUg6IsLG_h_UiHdpFfrV4JVMUqajaMQ2",
   social: {
     telegramChannel: "https://t.me/Horticulturemaster",
     telegramGroup: "https://t.me/horticulturmasterquiz",
