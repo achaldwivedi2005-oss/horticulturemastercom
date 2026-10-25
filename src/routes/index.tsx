@@ -209,7 +209,11 @@ function Stats() {
     },
     staleTime: 60_000,
   });
-  const values: Partial<Record<(typeof statItems)[number]["key"], number | undefined>> = { students: data?.students };
+  const { data: library } = useQuery(driveLibraryQuery);
+  const values: Partial<Record<(typeof statItems)[number]["key"], number | undefined>> = {
+    students: data?.students,
+    materials: library && !library.error ? library.files.length : undefined,
+  };
 
   return (
     <section className="container-page">
