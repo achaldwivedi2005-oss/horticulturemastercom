@@ -32,35 +32,47 @@ type Extracted = z.infer<typeof extractionSchema>["postings"][number];
 
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 
-/** Fetch an official page and turn it into compact text where every link keeps its absolute URL. */
-async function fetchPage(url: string): Promise<{ text: string; links: Set<string> }> {
+/** Optional: Firecrawl renders blocked or JavaScript-heavy pages. Used only when the connector is linked. */
+async function fetchViaFirecrawl(url: string): Promise<{ text: string; links: Set<string> } | null> {
   const firecrawlKey = process.env["FIRECRAWL_API_KEY"];
   const lovableKey = process.env["LOVABLE_API_KEY"];
-  if (firecrawlKey && lovableKey) {
-    // Optional: Firecrawl renders JavaScript-heavy pages. Used only when the connector is linked.
-    const res = await fetch("https://connector-gateway.lovable.dev/firecrawl/v2/scrape", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${lovableKey}`,
-        "X-Connection-Api-Key": firecrawlKey,
-      },
-      body: JSON.stringify({ url, formats: ["markdown", "links"], onlyMainContent: false }),
-    });
-    if (res.ok) {
-      const data = (await res.json()) as { data?: { markdown?: string; links?: string[] }; markdown?: string; links?: string[] };
-      const markdown = data.data?.markdown ?? data.markdown ?? "";
-      const links = new Set(data.data?.links ?? data.links ?? []);
-      if (markdown) return { text: markdown.slice(0, MAX_PAGE_CHARS), links };
-    } else {
-      console.error(`Firecrawl failed [${res.status}] for ${url}: ${await res.text()}`);
-    }
+  if (!firecrawlKey || !lovableKey) return null;
+  const direct = firecrawlKey.startsWith("fc-");
+  const res = await fetch(direct ? "https://api.firecrawl.dev/v2/scrape" : "https://connector-gateway.lovable.dev/firecrawl/v2/scrape", {
+    method: "POST",
+    headers: direct
+      ? { "Content-Type": "application/json", Authorization: `Bearer ${firecrawlKey}` }
+      : { "Content-Type": "application/json", Authorization: `Bearer ${lovableKey}`, "X-Connection-Api-Key": firecrawlKey },
+    body: JSON.stringify({ url, formats: ["markdown", "links"], onlyMainContent: false }),
+  });
+  if (!res.ok) {
+    console.error(`Firecrawl failed [${res.status}] for ${url}: ${await res.text()}`);
+    return null;
   }
+  const data = (await res.json()) as { data?: { markdown?: string; links?: string[] }; markdown?: string; links?: string[] };
+  const markdown = data.data?.markdown ?? data.markdown ?? "";
+  if (!markdown) return null;
+  return { text: markdown.slice(0, MAX_PAGE_CHARS), links: new Set(data.data?.links ?? data.links ?? []) };
+}
 
+/** Fetch an official page and turn it into compact text where every link keeps its absolute URL. */
+async function fetchPage(url: string): Promise<{ text: string; links: Set<string> }> {
+  try {
+    return await fetchDirect(url);
+  } catch (e) {
+    const fallback = await fetchViaFirecrawl(url);
+    if (fallback) return fallback;
+    throw e;
+  }
+}
+
+async function fetchDirect(url: string): Promise<{ text: string; links: Set<string> }> {
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; HorticultureMasterJobBot/1.0; +https://horticulture-master)",
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
       Accept: "text/html,application/xhtml+xml",
+      "Accept-Language": "en-IN,en;q=0.9",
     },
     redirect: "follow",
   });
