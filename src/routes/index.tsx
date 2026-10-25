@@ -16,6 +16,11 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import heroImage from "@/assets/hero-horticulture.jpg";
 import { supabase } from "@/integrations/supabase/client";
+import { driveLibraryQuery } from "@/lib/drive/drive.functions";
+import { jobPostingsQuery } from "@/lib/jobs/jobs-query";
+import { daysUntil } from "@/lib/jobs/classify";
+import { JobAlertsHighlight } from "@/components/jobs/JobAlerts";
+import type * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeading } from "@/components/site/SectionHeading";
@@ -49,6 +54,7 @@ function HomePage() {
   return (
     <>
       <Hero />
+      <JobAlertsHighlight />
       <ExamCategories />
       <Stats />
       <FeaturedSubjects />
@@ -203,7 +209,11 @@ function Stats() {
     },
     staleTime: 60_000,
   });
-  const values: Partial<Record<(typeof statItems)[number]["key"], number | undefined>> = { students: data?.students };
+  const { data: library } = useQuery(driveLibraryQuery);
+  const values: Partial<Record<(typeof statItems)[number]["key"], number | undefined>> = {
+    students: data?.students,
+    materials: library && !library.error ? library.files.length : undefined,
+  };
 
   return (
     <section className="container-page">
@@ -281,29 +291,28 @@ function FeaturedSubjects() {
 /* ------------------------------ Updates board ------------------------------ */
 
 function UpdatesBoard() {
-  const columns = [
-    {
-      title: "Latest notifications",
-      icon: Bell,
-      to: "/jobs" as const,
-      emptyTitle: "No notifications yet",
-      emptyText: "Exam notices and announcements will appear here once published by the admin team.",
-    },
-    {
-      title: "Popular study materials",
-      icon: Library,
-      to: "/materials" as const,
-      emptyTitle: "Library opening soon",
-      emptyText: "Subject-wise notes and PDFs will be listed here as they're uploaded.",
-    },
-    {
-      title: "Recent job updates",
-      icon: Briefcase,
-      to: "/jobs" as const,
-      emptyTitle: "No job posts yet",
-      emptyText: "Verified ICAR, SAU and government vacancies will appear here with official links.",
-    },
-  ];
+  const { data: library } = useQuery(driveLibraryQuery);
+  const { data: jobs = [] } = useQuery(jobPostingsQuery);
+  const latestPdfs = (library?.files ?? []).slice(0, 5);
+  const latestJobs = jobs.filter((j) => (daysUntil(j.deadline) ?? 1) >= 0).slice(0, 5);
+
+  const shell = (title: string, Icon: typeof Bell, to: "/jobs" | "/materials", body: React.ReactNode, i: number) => (
+    <Reveal key={title} delay={i * 90}>
+      <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-5 shadow-soft">
+        <div className="mb-5 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <Icon className="size-5 text-primary" />
+            <h3 className="font-sans text-base font-semibold tracking-normal">{title}</h3>
+          </div>
+          <Link to={to} className="text-sm font-semibold text-primary hover:underline">
+            View all
+          </Link>
+        </div>
+        {body}
+      </div>
+    </Reveal>
+  );
+
   return (
     <section className="bg-muted/40 py-16 md:py-24">
       <div className="container-page">
@@ -311,26 +320,73 @@ function UpdatesBoard() {
           <SectionHeading
             eyebrow="Stay updated"
             title="Notifications, notes & jobs"
-            description="Every item here will come from the admin dashboard — no made-up listings."
+            description="Live from our study library and the official recruitment pages we monitor — no made-up listings."
           />
         </Reveal>
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {columns.map((c, i) => (
-            <Reveal key={c.title} delay={i * 90}>
-              <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-5 shadow-soft">
-                <div className="mb-5 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <c.icon className="size-5 text-primary" />
-                    <h3 className="font-sans text-base font-semibold tracking-normal">{c.title}</h3>
-                  </div>
-                  <Link to={c.to} className="text-sm font-semibold text-primary hover:underline">
-                    View all
-                  </Link>
-                </div>
-                <EmptyState icon={c.icon} title={c.emptyTitle} description={c.emptyText} />
-              </div>
-            </Reveal>
-          ))}
+          {shell(
+            "Latest notifications",
+            Bell,
+            "/jobs",
+            <EmptyState
+              icon={Bell}
+              title="No notifications yet"
+              description="Exam notices and announcements will appear here once published by the admin team."
+            />,
+            0,
+          )}
+          {shell(
+            "Latest study materials",
+            Library,
+            "/materials",
+            latestPdfs.length ? (
+              <ul className="divide-y divide-border">
+                {latestPdfs.map((f) => (
+                  <li key={f.id}>
+                    <Link to="/materials" className="flex items-start gap-3 py-3 text-sm hover:text-primary">
+                      <BookOpen className="mt-0.5 size-4 shrink-0 text-primary" />
+                      <span className="line-clamp-2">{f.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyState icon={Library} title="Loading library…" description="Subject-wise notes and PDFs." />
+            ),
+            1,
+          )}
+          {shell(
+            "Recent job updates",
+            Briefcase,
+            "/jobs",
+            latestJobs.length ? (
+              <ul className="divide-y divide-border">
+                {latestJobs.map((j) => (
+                  <li key={j.id} className="py-3 text-sm">
+                    <a
+                      href={j.notification_url ?? j.source_url ?? "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="line-clamp-2 font-medium hover:text-primary"
+                    >
+                      {j.title}
+                    </a>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      {j.institute}
+                      {j.deadline ? ` · Last date ${j.deadline.split("-").reverse().join("-")}` : ""}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyState
+                icon={Briefcase}
+                title="No open vacancies"
+                description="Official ICAR, SAU and government vacancies will appear here automatically."
+              />
+            ),
+            2,
+          )}
         </div>
       </div>
     </section>

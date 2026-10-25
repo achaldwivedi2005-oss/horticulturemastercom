@@ -148,6 +148,8 @@ export type Database = {
       job_monitor_settings: {
         Row: {
           alert_mode: string
+          auto_publish: boolean
+          closing_soon_days: number
           id: number
           last_run_at: string | null
           scan_interval_hours: number
@@ -156,6 +158,8 @@ export type Database = {
         }
         Insert: {
           alert_mode?: string
+          auto_publish?: boolean
+          closing_soon_days?: number
           id?: number
           last_run_at?: string | null
           scan_interval_hours?: number
@@ -164,6 +168,8 @@ export type Database = {
         }
         Update: {
           alert_mode?: string
+          auto_publish?: boolean
+          closing_soon_days?: number
           id?: number
           last_run_at?: string | null
           scan_interval_hours?: number
@@ -176,68 +182,122 @@ export type Database = {
         Row: {
           age_limit: string | null
           alerted_at: string | null
+          application_fee: string | null
+          application_mode: string | null
           apply_url: string | null
           categories: string[]
           created_at: string
           deadline: string | null
+          degree_levels: string[]
+          department: string | null
           fingerprint: string
           id: string
           institute: string | null
+          is_breaking: boolean
+          is_pinned: boolean
+          is_updated_notification: boolean
+          last_verified_at: string | null
           location: string | null
+          net_compulsory: boolean | null
           notification_url: string | null
+          opening_date: string | null
+          phd_compulsory: boolean | null
+          previous_deadlines: Json
           published_date: string | null
           qualification: string | null
           salary: string | null
+          scope: string | null
           source_id: string | null
           source_url: string | null
+          specialization: string | null
+          state_name: string | null
           status: string
+          summary_en: string | null
+          summary_hi: string | null
           title: string
           updated_at: string
           vacancies: string | null
+          why_it_matters: string | null
         }
         Insert: {
           age_limit?: string | null
           alerted_at?: string | null
+          application_fee?: string | null
+          application_mode?: string | null
           apply_url?: string | null
           categories?: string[]
           created_at?: string
           deadline?: string | null
+          degree_levels?: string[]
+          department?: string | null
           fingerprint: string
           id?: string
           institute?: string | null
+          is_breaking?: boolean
+          is_pinned?: boolean
+          is_updated_notification?: boolean
+          last_verified_at?: string | null
           location?: string | null
+          net_compulsory?: boolean | null
           notification_url?: string | null
+          opening_date?: string | null
+          phd_compulsory?: boolean | null
+          previous_deadlines?: Json
           published_date?: string | null
           qualification?: string | null
           salary?: string | null
+          scope?: string | null
           source_id?: string | null
           source_url?: string | null
+          specialization?: string | null
+          state_name?: string | null
           status?: string
+          summary_en?: string | null
+          summary_hi?: string | null
           title: string
           updated_at?: string
           vacancies?: string | null
+          why_it_matters?: string | null
         }
         Update: {
           age_limit?: string | null
           alerted_at?: string | null
+          application_fee?: string | null
+          application_mode?: string | null
           apply_url?: string | null
           categories?: string[]
           created_at?: string
           deadline?: string | null
+          degree_levels?: string[]
+          department?: string | null
           fingerprint?: string
           id?: string
           institute?: string | null
+          is_breaking?: boolean
+          is_pinned?: boolean
+          is_updated_notification?: boolean
+          last_verified_at?: string | null
           location?: string | null
+          net_compulsory?: boolean | null
           notification_url?: string | null
+          opening_date?: string | null
+          phd_compulsory?: boolean | null
+          previous_deadlines?: Json
           published_date?: string | null
           qualification?: string | null
           salary?: string | null
+          scope?: string | null
           source_id?: string | null
           source_url?: string | null
+          specialization?: string | null
+          state_name?: string | null
           status?: string
+          summary_en?: string | null
+          summary_hi?: string | null
           title?: string
           updated_at?: string
           vacancies?: string | null
+          why_it_matters?: string | null
         }
         Relationships: [
           {
@@ -364,6 +424,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      jobs_auto_publish: { Args: never; Returns: boolean }
+      jobs_closing_soon_days: { Args: never; Returns: number }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
