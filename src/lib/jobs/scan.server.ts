@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { createOpenAI } from "@ai-sdk/openai";
 import { NoObjectGeneratedError, Output, streamText } from "ai";
 import { z } from "zod/v4";
-import { classifyJob, normaliseDate } from "./classify";
+import { classifyJob, degreeLevels, normaliseDate } from "./classify";
 
 const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1";
 const MODEL = "openai/gpt-6-astra";
@@ -16,15 +16,29 @@ const extractionSchema = z.object({
     z.object({
       post_name: z.string(),
       institute: z.string().nullable(),
+      department: z.string().nullable(),
       number_of_vacancies: z.string().nullable(),
       qualification: z.string().nullable(),
+      degree_levels: z.array(z.enum(degreeLevels)),
+      phd_compulsory: z.boolean().nullable(),
+      net_compulsory: z.boolean().nullable(),
+      specialization: z.string().nullable(),
+      scope: z.enum(["All India", "State Specific"]).nullable(),
+      state_name: z.string().nullable(),
       age_limit: z.string().nullable(),
       salary_or_stipend: z.string().nullable(),
+      application_fee: z.string().nullable(),
+      application_mode: z.string().nullable(),
       location: z.string().nullable(),
+      opening_date: z.string().nullable(),
       application_deadline: z.string().nullable(),
       published_date: z.string().nullable(),
+      is_corrigendum_or_extension: z.boolean(),
       notification_url: z.string().nullable(),
       apply_url: z.string().nullable(),
+      summary_en: z.string().nullable(),
+      summary_hi: z.string().nullable(),
+      why_it_matters: z.string().nullable(),
     }),
   ),
 });
@@ -127,6 +141,11 @@ Rules:
 - Dates must be YYYY-MM-DD. application_deadline = last date to apply or the walk-in/interview date when no last date is given. published_date = advertisement date if shown.
 - notification_url and apply_url must be URLs that appear in the page text as [link: ...]; otherwise null.
 - If the page lists only the post titles, still include them with the other fields null.
+- degree_levels: only degrees the page explicitly says are eligible (B.Sc. Horticulture, B.Sc. Agriculture, M.Sc. Horticulture, M.Sc. Agriculture, Ph.D.). Empty list when not stated. Young Professional-I usually needs a graduate degree and YP-II a postgraduate degree, but only tag what the page says.
+- phd_compulsory / net_compulsory: true or false only when the page clearly says so; otherwise null.
+- scope: "All India" for central bodies (ICAR institutes, ASRB, central universities) open to any Indian citizen; "State Specific" for state PSCs/departments or posts requiring state domicile; null if unclear. state_name: the state for State Specific posts, else "All India".
+- is_corrigendum_or_extension: true if the item is a corrigendum, addendum, date extension or revised notice.
+- summary_en: 1–2 plain sentences summarising only facts on the page. summary_hi: the same in simple Hindi (Devanagari). why_it_matters: one short line on why horticulture/agriculture students should care. Use null rather than guessing.
 - Today's date is ${today}. Skip items whose deadline is more than 60 days in the past.
 Return an empty list when there are no matching advertisements.`,
     messages: [
@@ -286,28 +305,65 @@ export async function runJobScan(opts: { trigger: "schedule" | "manual"; force?:
         const fingerprint = sha(
           (notificationUrl ? notificationUrl.toLowerCase() : `${source.id}|${title.toLowerCase()}|${deadline ?? ""}|${published ?? ""}`).trim(),
         );
+        const row = {
+          source_id: source.id,
+          title,
+          institute,
+          categories: classifyJob({ title, institute, organisationType: source.organisation_type }),
+          department: clip(p.department, 200),
+          vacancies: clip(p.number_of_vacancies, 100),
+          qualification: clip(p.qualification, 1000),
+          degree_levels: p.degree_levels ?? [],
+          phd_compulsory: p.phd_compulsory,
+          net_compulsory: p.net_compulsory,
+          specialization: clip(p.specialization, 200),
+          scope: p.scope,
+          state_name: clip(p.state_name, 60),
+          age_limit: clip(p.age_limit, 200),
+          salary: clip(p.salary_or_stipend, 300),
+          application_fee: clip(p.application_fee, 300),
+          application_mode: clip(p.application_mode, 60),
+          location: clip(p.location, 200),
+          opening_date: normaliseDate(p.opening_date),
+          deadline,
+          published_date: published,
+          notification_url: notificationUrl,
+          apply_url: applyUrl,
+          source_url: source.url,
+          summary_en: clip(p.summary_en, 2000),
+          summary_hi: clip(p.summary_hi, 3000),
+          why_it_matters: clip(p.why_it_matters, 500),
+        };
+
+        // Change detection: same post at the same source with a new deadline / corrigendum → update, keep history.
+        const { data: existing } = await admin
+          .from("job_postings")
+          .select("id, deadline, previous_deadlines, notification_url")
+          .eq("source_id", source.id)
+          .ilike("title", title.replace(/[%_]/g, "\\$&"))
+          .neq("status", "rejected")
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (existing && (existing.notification_url === notificationUrl || p.is_corrigendum_or_extension)) {
+          if (deadline && existing.deadline && deadline !== existing.deadline) {
+            const history = Array.isArray(existing.previous_deadlines) ? existing.previous_deadlines : [];
+            await admin
+              .from("job_postings")
+              .update({
+                deadline,
+                previous_deadlines: [...history, { deadline: existing.deadline, replaced_at: new Date().toISOString() }],
+                is_updated_notification: true,
+                ...(notificationUrl ? { notification_url: notificationUrl } : {}),
+              })
+              .eq("id", existing.id);
+          }
+          continue;
+        }
+
         const { data: inserted, error } = await admin
           .from("job_postings")
-          .upsert(
-            {
-              source_id: source.id,
-              fingerprint,
-              title,
-              institute,
-              categories: classifyJob({ title, institute, organisationType: source.organisation_type }),
-              vacancies: clip(p.number_of_vacancies, 100),
-              qualification: clip(p.qualification, 1000),
-              age_limit: clip(p.age_limit, 200),
-              salary: clip(p.salary_or_stipend, 300),
-              location: clip(p.location, 200),
-              deadline,
-              published_date: published,
-              notification_url: notificationUrl,
-              apply_url: applyUrl,
-              source_url: source.url,
-            },
-            { onConflict: "fingerprint", ignoreDuplicates: true },
-          )
+          .upsert({ ...row, fingerprint, is_updated_notification: p.is_corrigendum_or_extension }, { onConflict: "fingerprint", ignoreDuplicates: true })
           .select("id");
         if (error) errors.push(`${source.name}: could not save "${title}"`);
         else if (inserted?.length) added++;
