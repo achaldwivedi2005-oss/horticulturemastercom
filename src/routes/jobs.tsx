@@ -1,19 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
-import { ComingSoonPanel } from "@/components/site/ComingSoonPanel";
+import { JobAlertsBoard } from "@/components/jobs/JobAlerts";
 
 export const Route = createFileRoute("/jobs")({
   head: () => ({
     meta: [
-      { title: "Agriculture & Horticulture Jobs — Horticulture Master" },
+      { title: "Agriculture & Horticulture Job Alerts — Horticulture Master" },
       {
         name: "description",
-        content: "Government agriculture and horticulture jobs, ICAR and agricultural university vacancies with official links.",
+        content:
+          "Young Professional, SRF/JRF, ICAR and government agriculture & horticulture vacancies, monitored automatically from official recruitment pages.",
       },
-      { property: "og:title", content: "Agriculture & Horticulture Jobs — Horticulture Master" },
+      { property: "og:title", content: "Agriculture & Horticulture Job Alerts — Horticulture Master" },
       {
         property: "og:description",
-        content: "ICAR, SAU and government agri-horti vacancies with eligibility, deadlines and official notifications.",
+        content: "ICAR, SAU and government agri-horti vacancies with deadlines and official notification links.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -27,22 +28,12 @@ function JobsPage() {
     <>
       <PageHeader
         eyebrow="Agriculture jobs portal"
-        title="Verified vacancies, straight from official notifications"
-        description="Government, ICAR and agricultural university openings — with eligibility, deadlines and the original notification link."
+        title="🚨 Latest Agriculture & Horticulture Job Alerts"
+        description="We check official ICAR institute, university and government recruitment pages several times a day. Every vacancy links to its original notice and source."
       />
-      <ComingSoonPanel
-        stage="Stage 5"
-        features={[
-          "Government agriculture & horticulture jobs",
-          "ICAR institute vacancies",
-          "Agricultural university vacancies",
-          "Eligibility & number of posts",
-          "Application deadlines",
-          "Official notification links",
-          "Search & filter options",
-          "Latest exam notifications",
-        ]}
-      />
+      <section className="container-page py-10 md:py-14">
+        <JobAlertsBoard />
+      </section>
     </>
   );
 }
