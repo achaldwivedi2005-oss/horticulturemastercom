@@ -40,3 +40,29 @@ export function normaliseDate(value: string | null | undefined): string | null {
   const year = d.getUTCFullYear();
   return year >= 2000 && year <= 2100 ? value : null;
 }
+
+/** Degree levels used for eligibility tags and filters. */
+export const degreeLevels = ["B.Sc. Horticulture", "B.Sc. Agriculture", "M.Sc. Horticulture", "M.Sc. Agriculture", "Ph.D."] as const;
+export type DegreeLevel = (typeof degreeLevels)[number];
+
+export type JobStatus = "NEW" | "APPLICATION OPEN" | "CLOSING SOON" | "CLOSED" | "UPDATED NOTIFICATION";
+
+/**
+ * Status badges for a posting, computed from verified dates only:
+ * NEW = found in the last 72 hours, CLOSING SOON = deadline within the threshold,
+ * CLOSED = deadline passed, UPDATED NOTIFICATION = corrigendum/extension detected.
+ */
+export function computeJobStatuses(
+  job: { created_at: string; deadline: string | null; is_updated_notification?: boolean | null },
+  closingSoonDays = 7,
+  now = new Date(),
+): JobStatus[] {
+  const days = daysUntil(job.deadline, now);
+  if (days !== null && days < 0) return ["CLOSED"];
+  const out: JobStatus[] = [];
+  if (now.getTime() - new Date(job.created_at).getTime() < 72 * 3_600_000) out.push("NEW");
+  if (job.is_updated_notification) out.push("UPDATED NOTIFICATION");
+  if (days !== null && days <= closingSoonDays) out.push("CLOSING SOON");
+  if (!out.includes("CLOSING SOON")) out.push("APPLICATION OPEN");
+  return out;
+}

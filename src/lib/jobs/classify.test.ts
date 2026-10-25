@@ -44,3 +44,25 @@ describe("job dates", () => {
     expect(normaliseDate("2026-11-13")).toBe("2026-11-13");
   });
 });
+
+import { computeJobStatuses } from "./classify";
+
+describe("job status badges", () => {
+  const now = new Date("2026-10-24T06:00:00Z");
+  it("is NEW within 72 hours of being found", () => {
+    expect(computeJobStatuses({ created_at: "2026-10-22T08:00:00Z", deadline: "2026-12-01" }, 7, now)).toContain("NEW");
+    expect(computeJobStatuses({ created_at: "2026-10-20T08:00:00Z", deadline: "2026-12-01" }, 7, now)).not.toContain("NEW");
+  });
+  it("is CLOSING SOON when the deadline is within 7 days", () => {
+    expect(computeJobStatuses({ created_at: "2026-10-01T00:00:00Z", deadline: "2026-10-30" }, 7, now)).toContain("CLOSING SOON");
+    expect(computeJobStatuses({ created_at: "2026-10-01T00:00:00Z", deadline: "2026-11-15" }, 7, now)).toContain("APPLICATION OPEN");
+  });
+  it("is CLOSED after the deadline", () => {
+    expect(computeJobStatuses({ created_at: "2026-10-01T00:00:00Z", deadline: "2026-10-20" }, 7, now)).toEqual(["CLOSED"]);
+  });
+  it("shows UPDATED NOTIFICATION for corrigenda", () => {
+    expect(
+      computeJobStatuses({ created_at: "2026-10-01T00:00:00Z", deadline: "2026-11-20", is_updated_notification: true }, 7, now),
+    ).toContain("UPDATED NOTIFICATION");
+  });
+});
