@@ -18,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/site/EmptyState";
 import { StatusBadge } from "@/components/site/StatusBadge";
+import { AdminJobs } from "@/components/admin/AdminJobs";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   beforeLoad: async ({ context }) => {
@@ -97,6 +98,7 @@ function AdminPage() {
         <TabsList className="h-auto flex-wrap rounded-full p-1">
           <TabsTrigger value="students" className="rounded-full px-4">Students</TabsTrigger>
           <TabsTrigger value="messages" className="rounded-full px-4">Messages</TabsTrigger>
+          <TabsTrigger value="jobs" className="rounded-full px-4">Jobs</TabsTrigger>
           <TabsTrigger value="content" className="rounded-full px-4">Content</TabsTrigger>
         </TabsList>
 
@@ -105,6 +107,9 @@ function AdminPage() {
         </TabsContent>
         <TabsContent value="messages" className="mt-6">
           <MessagesList rows={messages.data} loading={messages.isLoading} />
+        </TabsContent>
+        <TabsContent value="jobs" className="mt-6">
+          <AdminJobs />
         </TabsContent>
         <TabsContent value="content" className="mt-6">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
