@@ -12,11 +12,16 @@ Spec reference: user's "PROJECT OBJECTIVE — Advanced Intelligence, RAG chatbot
 - [x] Automatic job monitor (scheduled every 3h, official pages, AI extraction, de-duplication, run log)
 - [x] Animated "Latest Agriculture & Horticulture Job Alerts" on homepage + Jobs page
 
-## In progress
-- [ ] Admin Jobs tab: review queue (verify/reject/pin), sources manager, settings, "Run now", logs
-- [ ] Job intelligence fields: degree eligibility (B.Sc/M.Sc/Ph.D), PhD/NET compulsory, All-India vs state, status (NEW/OPEN/CLOSING SOON/CLOSED/UPDATED), previous deadlines, English + Hindi summary, "why it matters", pinned/breaking, share on WhatsApp/Telegram
-- [ ] Job filters: qualification, scope/state, institute type, status, sort by newest/closing soonest
+- [x] Admin Jobs tab: review queue (verify/reject/pin/breaking/edit/delete/add manually), sources manager, settings (auto-publish, interval, closing-soon days, Telegram), "Run now", run logs
+- [x] Job intelligence fields: degrees, PhD/NET, All-India vs state, NEW/OPEN/CLOSING SOON/CLOSED/UPDATED, deadline history, English + Hindi summary, why it matters, share on WhatsApp/Telegram
+- [x] Job filters: qualification, scope/state, status, sort newest/closing soonest
+- [x] Monitor pauses cleanly when AI credits run out
+- [x] Added sources: ICAR-CISH, ICAR-CIAH, NHB; fixed ICAR HQ + ASRB links
+
+## Blocked
+- [ ] Re-reading jobs (blocked: AI credits used up; daily credits reset 05:30 IST, then the next scheduled check refills the list)
 - [ ] Telegram alerts (blocked: needs a Telegram bot connected + bot added as admin of the channel)
+- [ ] NBPGR + ASRB pages time out from our server (may need Firecrawl)
 
 ## Next (from spec)
 - [ ] Expand monitored sources: NHB, MIDH, agriwelfare, PIB, NABARD, NSC, more ICAR institutes, SAUs, state PSCs
