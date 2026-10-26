@@ -29,6 +29,13 @@
       "when": 1792889640619,
       "tag": "0003_job_intelligence_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793004299678,
+      "tag": "0004_job_monitor_ai_pause",
+      "breakpoints": true
     }
   ]
 }
