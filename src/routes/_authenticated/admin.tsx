@@ -74,13 +74,19 @@ const contentModules = [
   { icon: ClipboardCheck, title: "Quizzes", text: "Build tests, set timer and marking scheme", stage: "Stage 3" },
   { icon: PencilLine, title: "Answers & explanations", text: "Edit any question after publishing", stage: "Stage 3" },
   { icon: Library, title: "Study materials", text: "Upload notes & PDFs by subject and topic", stage: "Stage 4" },
-  { icon: Briefcase, title: "Job posts", text: "Publish vacancies with deadlines & official links", stage: "Stage 5" },
   { icon: Megaphone, title: "Announcements", text: "Post exam notifications to the homepage", stage: "Stage 5" },
 ];
 
 function AdminPage() {
   const students = useStudents();
   const messages = useMessages();
+  const jobCount = useQuery({
+    queryKey: ["admin-job-postings", "count"],
+    queryFn: async () => {
+      const { count } = await supabase.from("job_postings").select("id", { count: "exact", head: true }).neq("status", "rejected");
+      return count ?? 0;
+    },
+  });
 
   return (
     <div className="container-page py-10 md:py-14">
@@ -91,7 +97,7 @@ function AdminPage() {
         <Stat icon={Users} label="Registered students" value={students.data?.length} loading={students.isLoading} />
         <Stat icon={Mail} label="Contact messages" value={messages.data?.length} loading={messages.isLoading} />
         <Stat icon={FileQuestion} label="Questions" soon />
-        <Stat icon={Briefcase} label="Job posts" soon />
+        <Stat icon={Briefcase} label="Job posts" value={jobCount.data ?? undefined} loading={jobCount.isLoading} />
       </div>
 
       <Tabs defaultValue="students" className="mt-10">
