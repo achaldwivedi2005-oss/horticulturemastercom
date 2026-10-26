@@ -122,7 +122,23 @@ async function fetchDirect(url: string): Promise<{ text: string; links: Set<stri
 }
 
 /** Ask the AI to pull out only the vacancies that are explicitly on the page. */
+/** AI gateway refused for account reasons (credits used up / workspace limit) — stop the whole run. */
+export class AiBlockedError extends Error {
+  constructor(
+    public status: number,
+    message: string,
+  ) {
+    super(message);
+  }
+}
+
+function statusOf(e: unknown): number | undefined {
+  const s = (e as { statusCode?: unknown } | null)?.statusCode;
+  return typeof s === "number" ? s : undefined;
+}
+
 async function extractPostings(source: Source, pageText: string, today: string): Promise<Extracted[]> {
+  let streamError: unknown;
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new Error("AI is not configured");
   const provider = createOpenAI({
@@ -155,6 +171,9 @@ Return an empty list when there are no matching advertisements.`,
       },
     ],
     output: Output.object({ schema: extractionSchema }),
+    onError: ({ error }) => {
+      streamError = error;
+    },
     providerOptions: {
       openai: {
         forceReasoning: true,
@@ -170,6 +189,14 @@ Return an empty list when there are no matching advertisements.`,
     const output = await result.output;
     return output.postings;
   } catch (error) {
+    const status = statusOf(streamError) ?? statusOf(error);
+    if (status === 402 || status === 403) {
+      throw new AiBlockedError(
+        status,
+        status === 402 ? "AI credits are used up — top up credits to resume job monitoring." : "AI access is blocked for this workspace (limit or policy).",
+      );
+    }
+    if (status === 429) throw new Error("AI is busy (rate limited) — will retry on the next scheduled run.");
     if (NoObjectGeneratedError.isInstance(error) && error.text) {
       try {
         const parsed = extractionSchema.safeParse(JSON.parse(error.text));
@@ -369,6 +396,10 @@ export async function runJobScan(opts: { trigger: "schedule" | "manual"; force?:
         else if (inserted?.length) added++;
       }
       newPostings += added;
+      if (settings?.ai_paused_at) {
+        await admin.from("job_monitor_settings").update({ ai_paused_at: null, ai_paused_reason: null }).eq("id", 1);
+        settings.ai_paused_at = null;
+      }
       await admin
         .from("job_sources")
         .update({
@@ -379,6 +410,16 @@ export async function runJobScan(opts: { trigger: "schedule" | "manual"; force?:
         })
         .eq("id", source.id);
     } catch (e) {
+      if (e instanceof AiBlockedError) {
+        // Pause the whole run; the next scheduled run makes a single probe (first source) before continuing.
+        errors.push(e.message);
+        await admin
+          .from("job_monitor_settings")
+          .update({ ai_paused_at: new Date().toISOString(), ai_paused_reason: e.message })
+          .eq("id", 1);
+        await admin.from("job_sources").update({ last_checked_at: new Date().toISOString(), last_status: "paused", last_error: e.message }).eq("id", source.id);
+        break;
+      }
       const msg = e instanceof Error ? e.message : String(e);
       console.error(`job scan failed for ${source.url}`, e);
       errors.push(`${source.name}: ${msg}`);
