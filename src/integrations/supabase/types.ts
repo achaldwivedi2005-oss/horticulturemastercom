@@ -147,6 +147,8 @@ export type Database = {
       }
       job_monitor_settings: {
         Row: {
+          ai_paused_at: string | null
+          ai_paused_reason: string | null
           alert_mode: string
           auto_publish: boolean
           closing_soon_days: number
@@ -157,6 +159,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          ai_paused_at?: string | null
+          ai_paused_reason?: string | null
           alert_mode?: string
           auto_publish?: boolean
           closing_soon_days?: number
@@ -167,6 +171,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          ai_paused_at?: string | null
+          ai_paused_reason?: string | null
           alert_mode?: string
           auto_publish?: boolean
           closing_soon_days?: number

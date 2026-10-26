@@ -18,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/site/EmptyState";
 import { StatusBadge } from "@/components/site/StatusBadge";
+import { AdminJobs } from "@/components/admin/AdminJobs";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   beforeLoad: async ({ context }) => {
@@ -73,13 +74,19 @@ const contentModules = [
   { icon: ClipboardCheck, title: "Quizzes", text: "Build tests, set timer and marking scheme", stage: "Stage 3" },
   { icon: PencilLine, title: "Answers & explanations", text: "Edit any question after publishing", stage: "Stage 3" },
   { icon: Library, title: "Study materials", text: "Upload notes & PDFs by subject and topic", stage: "Stage 4" },
-  { icon: Briefcase, title: "Job posts", text: "Publish vacancies with deadlines & official links", stage: "Stage 5" },
   { icon: Megaphone, title: "Announcements", text: "Post exam notifications to the homepage", stage: "Stage 5" },
 ];
 
 function AdminPage() {
   const students = useStudents();
   const messages = useMessages();
+  const jobCount = useQuery({
+    queryKey: ["admin-job-postings", "count"],
+    queryFn: async () => {
+      const { count } = await supabase.from("job_postings").select("id", { count: "exact", head: true }).neq("status", "rejected");
+      return count ?? 0;
+    },
+  });
 
   return (
     <div className="container-page py-10 md:py-14">
@@ -90,13 +97,14 @@ function AdminPage() {
         <Stat icon={Users} label="Registered students" value={students.data?.length} loading={students.isLoading} />
         <Stat icon={Mail} label="Contact messages" value={messages.data?.length} loading={messages.isLoading} />
         <Stat icon={FileQuestion} label="Questions" soon />
-        <Stat icon={Briefcase} label="Job posts" soon />
+        <Stat icon={Briefcase} label="Job posts" value={jobCount.data ?? undefined} loading={jobCount.isLoading} />
       </div>
 
       <Tabs defaultValue="students" className="mt-10">
         <TabsList className="h-auto flex-wrap rounded-full p-1">
           <TabsTrigger value="students" className="rounded-full px-4">Students</TabsTrigger>
           <TabsTrigger value="messages" className="rounded-full px-4">Messages</TabsTrigger>
+          <TabsTrigger value="jobs" className="rounded-full px-4">Jobs</TabsTrigger>
           <TabsTrigger value="content" className="rounded-full px-4">Content</TabsTrigger>
         </TabsList>
 
@@ -105,6 +113,9 @@ function AdminPage() {
         </TabsContent>
         <TabsContent value="messages" className="mt-6">
           <MessagesList rows={messages.data} loading={messages.isLoading} />
+        </TabsContent>
+        <TabsContent value="jobs" className="mt-6">
+          <AdminJobs />
         </TabsContent>
         <TabsContent value="content" className="mt-6">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
