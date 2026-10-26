@@ -465,6 +465,11 @@ function MonitorSettings() {
           </Button>
         </div>
         {runAll.isPending && <p className="text-xs text-muted-foreground">Checking every source — this can take a minute or two.</p>}
+        {s?.ai_paused_reason && (
+          <p className="rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            Monitoring paused since {fmt(s.ai_paused_at)}: {s.ai_paused_reason}
+          </p>
+        )}
         {s && (
           <>
             <label className="flex items-center justify-between gap-3 text-sm">
