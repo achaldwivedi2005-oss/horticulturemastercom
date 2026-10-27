@@ -115,6 +115,60 @@ export type Database = {
         }
         Relationships: []
       }
+      exam_updates: {
+        Row: {
+          created_at: string
+          exam: string
+          id: string
+          is_pinned: boolean
+          key_dates: Json
+          kind: string
+          last_date: string | null
+          official_url: string | null
+          published_date: string | null
+          source_name: string | null
+          status: string
+          summary: string | null
+          summary_hi: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          exam?: string
+          id?: string
+          is_pinned?: boolean
+          key_dates?: Json
+          kind?: string
+          last_date?: string | null
+          official_url?: string | null
+          published_date?: string | null
+          source_name?: string | null
+          status?: string
+          summary?: string | null
+          summary_hi?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          exam?: string
+          id?: string
+          is_pinned?: boolean
+          key_dates?: Json
+          kind?: string
+          last_date?: string | null
+          official_url?: string | null
+          published_date?: string | null
+          source_name?: string | null
+          status?: string
+          summary?: string | null
+          summary_hi?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       job_monitor_runs: {
         Row: {
           errors: Json
