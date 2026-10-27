@@ -1,0 +1,115 @@
+-- Exam, counselling and horticulture updates (admin-managed, publicly readable)
+CREATE TABLE public.exam_updates (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  title text NOT NULL CHECK (char_length(title) BETWEEN 1 AND 300),
+  exam text NOT NULL DEFAULT 'Other' CHECK (exam IN ('ICAR PG/PhD', 'ASRB NET/ARS', 'CUET-PG', 'State Exams', 'Horticulture News', 'Other')),
+  kind text NOT NULL DEFAULT 'Notice' CHECK (kind IN ('Counselling', 'Application Form', 'Exam Date', 'Result', 'Notice', 'News')),
+  summary text CHECK (char_length(summary) <= 2000),
+  summary_hi text CHECK (char_length(summary_hi) <= 3000),
+  key_dates jsonb NOT NULL DEFAULT '[]'::jsonb,
+  last_date date,
+  official_url text CHECK (official_url IS NULL OR official_url ~* '^https?://'),
+  source_name text CHECK (char_length(source_name) <= 150),
+  published_date date,
+  is_pinned boolean NOT NULL DEFAULT false,
+  status text NOT NULL DEFAULT 'published' CHECK (status IN ('published', 'draft')),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX exam_updates_status_idx ON public.exam_updates (status, is_pinned DESC, created_at DESC);
+GRANT SELECT ON public.exam_updates TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.exam_updates TO authenticated;
+GRANT ALL ON public.exam_updates TO service_role;
+ALTER TABLE public.exam_updates ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public reads published updates" ON public.exam_updates FOR SELECT TO anon, authenticated
+  USING (status = 'published');
+CREATE POLICY "Admins manage updates" ON public.exam_updates FOR ALL TO authenticated
+  USING (public.has_role(auth.uid(), 'admin')) WITH CHECK (public.has_role(auth.uid(), 'admin'));
+CREATE TRIGGER exam_updates_set_updated_at BEFORE UPDATE ON public.exam_updates
+  FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+-- Current updates, checked against official pages on 27 Oct 2026
+INSERT INTO public.exam_updates (title, exam, kind, summary, summary_hi, key_dates, last_date, official_url, source_name, published_date, is_pinned) VALUES
+('ICAR PG & Ph.D. Counselling 2026-27 — Mop-up (final) round completed', 'ICAR PG/PhD', 'Counselling',
+ 'ICAR''s online counselling for M.Sc. (all streams except Veterinary) and Ph.D. (all streams) for 2026-27 ran from 29 Sep to 24 Oct 2026. The last date for document verification and seat-acceptance fee in the mop-up/final round was extended to 24 Oct 2026 (11:50 PM). Candidates with a seat should now follow their allotted university''s joining instructions. Seats still vacant after counselling are filled by the universities themselves, as per the counselling brochure.',
+ 'ICAR की M.Sc. (Veterinary को छोड़कर) और Ph.D. 2026-27 की ऑनलाइन काउंसलिंग 29 सितंबर से 24 अक्टूबर 2026 तक चली। मॉप-अप (अंतिम) राउंड में डॉक्यूमेंट वेरिफिकेशन और सीट एक्सेप्टेंस फीस की आखिरी तारीख 24 अक्टूबर 2026 (रात 11:50) तक बढ़ाई गई थी। जिनको सीट मिली है, वे अपनी यूनिवर्सिटी के जॉइनिंग निर्देश देखें। काउंसलिंग के बाद खाली सीटें यूनिवर्सिटी खुद भरती हैं।',
+ '[{"label":"Registration & choice filling opened","date":"2026-09-29"},{"label":"Choice filling closed","date":"2026-10-02"},{"label":"Round 1 seat allotment","date":"2026-10-05"},{"label":"Mop-up choice filling","text":"19–21 Oct 2026"},{"label":"Mop-up seat allotment","date":"2026-10-23"},{"label":"Final deadline (extended)","date":"2026-10-24"}]'::jsonb,
+ '2026-10-24', 'https://icarcounseling.com/', 'ICAR Counselling portal', '2026-09-29', true),
+('ICAR mop-up round notice: degree/PDC cut-off date was 2 Oct 2026', 'ICAR PG/PhD', 'Notice',
+ 'ICAR''s revised public notice (17 Oct 2026) said only registered candidates who had not taken or withdrawn a seat up to Round 4 could join the mop-up round. The qualifying degree / Provisional Degree Certificate had to be issued by 02 Oct 2026.',
+ 'ICAR के संशोधित नोटिस (17 अक्टूबर 2026) के अनुसार मॉप-अप राउंड में वही रजिस्टर्ड उम्मीदवार शामिल हो सकते थे जिन्होंने राउंड 4 तक सीट नहीं ली या छोड़ी नहीं थी। डिग्री / PDC 02 अक्टूबर 2026 तक जारी होना ज़रूरी था।',
+ '[{"label":"Degree / PDC cut-off","date":"2026-10-02"},{"label":"Mop-up round","text":"19–24 Oct 2026"}]'::jsonb,
+ NULL, 'https://www.icar.org.in/en/public-notice-revised-mop-round-pg-phd-counselling-2026', 'ICAR', '2026-10-17', false),
+('ASRB Combined NET, ARS, SMS (T-6) & STO (T-6) 2026 — notification awaited', 'ASRB NET/ARS', 'Application Form',
+ 'ASRB''s tentative schedule said the 2026 notification would come in August 2026, with the combined computer-based test (NET + ARS/SMS/STO preliminary) in November 2026 and the Mains (descriptive) in March 2027. As of 27 Oct 2026 the notification is not yet on asrb.gov.in, so the form dates are not announced. We will add the exact dates as soon as ASRB publishes them.',
+ 'ASRB के अनुमानित शेड्यूल के अनुसार 2026 का नोटिफिकेशन अगस्त 2026 में आना था, NET + ARS/SMS/STO प्रीलिम्स का CBT नवंबर 2026 में और मेन्स मार्च 2027 में। 27 अक्टूबर 2026 तक नोटिफिकेशन asrb.gov.in पर नहीं आया है, इसलिए फॉर्म की तारीखें अभी घोषित नहीं हुई हैं। जैसे ही ASRB तारीखें जारी करेगा, हम यहाँ जोड़ देंगे।',
+ '[{"label":"Notification","text":"August 2026 (tentative) — not released yet"},{"label":"NET + ARS Prelims (CBT)","text":"November 2026 (tentative)"},{"label":"ARS/SMS/STO Mains","text":"March 2027 (tentative)"}]'::jsonb,
+ NULL, 'https://asrb.gov.in/', 'ASRB', NULL, true),
+('ASRB Advt. No. 01/2026 — 48 Research Management Positions: last date extended to 2 Nov 2026', 'ASRB NET/ARS', 'Application Form',
+ 'ASRB has extended the last date for online applications against Advt. No. 01/2026 (48 Research Management Positions in ICAR) to 02 Nov 2026, 5:00 PM (Notice-III). These are senior research-management posts; check the advertisement for eligibility.',
+ 'ASRB ने विज्ञापन संख्या 01/2026 (ICAR में 48 रिसर्च मैनेजमेंट पद) के ऑनलाइन आवेदन की आखिरी तारीख 02 नवंबर 2026, शाम 5:00 बजे तक बढ़ा दी है। ये वरिष्ठ पद हैं; योग्यता विज्ञापन में देखें।',
+ '[{"label":"Last date (extended)","date":"2026-11-02"}]'::jsonb,
+ '2026-11-02', 'https://asrb.gov.in/UserDocs/__/__9bda68c1-7f73-41db-98e1-e51269f671f6_Notice-III.pdf', 'ASRB', NULL, false),
+('ASRB ARS, SMS & STO 2025 — personal interview schedule released', 'ASRB NET/ARS', 'Notice',
+ 'ASRB has published the personal interview schedule for candidates who qualified the Combined Mains (Descriptive) Examination for ARS, SMS (T-6) & STO (T-6) 2025. Check the official PDF for your date and the list of documents to bring.',
+ 'ARS, SMS (T-6) और STO (T-6) 2025 मेन्स पास करने वाले उम्मीदवारों के लिए ASRB ने इंटरव्यू शेड्यूल जारी कर दिया है। अपनी तारीख और ज़रूरी दस्तावेज़ों के लिए ऑफिशियल PDF देखें।',
+ '[]'::jsonb,
+ NULL, 'https://asrb.gov.in/UserDocs/__/__b0fd1153-05b3-42ad-9ec8-5aec0937a4d9_Interview%20Schedule%20of%20Combined%20ARS%20SMS%20STO%20Exam%202025.pdf', 'ASRB', NULL, false),
+('ICAR-DFR Pune releases 4 new flower varieties: DFR Pallavi, DFR Swarna, DFR Megha (chrysanthemum) and DFR Soham (gladiolus)', 'Horticulture News', 'News',
+ 'On 16 Oct 2026 ICAR-Directorate of Floricultural Research, Pune released three chrysanthemum varieties (DFR Pallavi, DFR Swarna, DFR Megha) and one gladiolus variety (DFR Soham), plus two technologies: DFR Phool Shakti (extends vase life of cut flowers) and DFR Khushbu (room/car freshener from ornamental basil essential oil). Useful for floriculture current affairs.',
+ '16 अक्टूबर 2026 को ICAR-पुष्प अनुसंधान निदेशालय, पुणे ने गुलदाउदी की तीन किस्में (DFR पल्लवी, DFR स्वर्णा, DFR मेघा) और ग्लैडियोलस की एक किस्म (DFR सोहम) जारी की। साथ में दो तकनीकें: DFR फूल शक्ति (कटे फूलों की वेस लाइफ बढ़ाती है) और DFR खुशबू (सजावटी तुलसी के तेल से फ्रेशनर)।',
+ '[]'::jsonb,
+ NULL, 'https://icar.org.in/en/icar-dfr-pune-releases-improved-flower-crop-varieties-and-showcases-innovative-technologies-during', 'ICAR', '2026-10-16', false),
+('National Horticulture Board suspends receipt of new applications under its schemes', 'Horticulture News', 'News',
+ 'NHB has posted a notice (08 Oct 2026) suspending the receipt of new applications for grant of clearance under NHB schemes. Read the official notice before applying for any NHB subsidy.',
+ 'राष्ट्रीय बागवानी बोर्ड (NHB) ने 08 अक्टूबर 2026 के नोटिस में अपनी योजनाओं के तहत नए आवेदन लेना फिलहाल रोक दिया है। किसी भी NHB सब्सिडी के लिए आवेदन से पहले ऑफिशियल नोटिस पढ़ें।',
+ '[]'::jsonb,
+ NULL, 'https://www.nhb.gov.in/NewsAnnouncement.aspx', 'National Horticulture Board', '2026-10-08', false),
+('Indian Horticulture magazine — September–October 2026 issue out', 'Horticulture News', 'News',
+ 'ICAR''s Indian Horticulture magazine (Sep–Oct 2026) is available as a free PDF, opening with the DG ICAR''s note "From Tradition to Innovation – A New Path to Self-Reliant Horticulture". Good reading for current trends in Indian horticulture.',
+ 'ICAR की इंडियन हॉर्टिकल्चर पत्रिका (सितंबर–अक्टूबर 2026) मुफ्त PDF में उपलब्ध है। बागवानी के नए ट्रेंड समझने के लिए अच्छी पढ़ाई।',
+ '[]'::jsonb,
+ NULL, 'https://icar.org.in/sites/default/files/2026-10/Indian%20Horticulture%2C%20Sep-Oct_2026_Low_0.pdf', 'ICAR', NULL, false),
+('Andhra Pradesh launches ₹1 lakh crore "Global Horticulture Hub – Rayalaseema Rising"', 'Horticulture News', 'News',
+ 'On 2 Oct 2026 the Andhra Pradesh CM and the Union Finance Minister laid the foundation for the Rayalaseema horticulture hub at Madanapalle, promising irrigation, processing and export support to make the region a "global fruit bowl".',
+ '2 अक्टूबर 2026 को मदनपल्ले में आंध्र प्रदेश के मुख्यमंत्री और केंद्रीय वित्त मंत्री ने रायलसीमा हॉर्टिकल्चर हब की नींव रखी — सिंचाई, प्रोसेसिंग और एक्सपोर्ट सपोर्ट के साथ क्षेत्र को "ग्लोबल फ्रूट बाउल" बनाने का लक्ष्य।',
+ '[]'::jsonb,
+ NULL, 'https://www.thehindu.com/news/national/andhra-pradesh/naidu-sitharaman-launch-rayalaseema-horticulture-hub-anant-ambani-pledges-1-lakh-crore-for-biogas-in-andhra/article71536514.ece', 'The Hindu', '2026-10-02', false);
+
+-- Open vacancies taken from official recruitment pages on 27 Oct 2026 (admin-verified)
+INSERT INTO public.job_postings (fingerprint, title, institute, department, categories, vacancies, qualification, age_limit, salary, location, deadline, published_date, notification_url, apply_url, source_url, status, scope, state_name, degree_levels, application_mode, is_updated_notification, summary_en, summary_hi, why_it_matters, last_verified_at, is_pinned) VALUES
+('manual:iari:plantphys-ra-srf-yp2:20261022', 'Research Associate, Senior Research Fellow & Young Professional-II', 'ICAR-IARI, New Delhi', 'Division of Plant Physiology & Division of Biochemistry', ARRAY['ICAR','Young Professional','SRF/JRF'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-11-11', '2026-10-22', 'https://iari.res.in/files/jobs/Revised_Plant_Physiology_application__22102026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, false,
+ 'Contractual RA, SRF and YP-II positions at IARI''s Plant Physiology and Biochemistry divisions. Last date 11 Nov 2026 — see the PDF for posts, pay and qualification.', 'IARI के प्लांट फिजियोलॉजी और बायोकैमिस्ट्री डिवीजन में RA, SRF और YP-II के संविदा पद। आखिरी तारीख 11 नवंबर 2026।', NULL, now(), false),
+('manual:iari:agecon-yp2:20261022', 'Young Professional-II (YP-II)', 'ICAR-IARI, New Delhi', 'Division of Agricultural Economics', ARRAY['ICAR','Young Professional'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-11-23', '2026-10-22', 'https://iari.res.in/files/jobs/advertisement_22102026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, false,
+ 'YP-II position in IARI''s Agricultural Economics division. Last date 23 Nov 2026.', 'IARI के कृषि अर्थशास्त्र डिवीजन में YP-II पद। आखिरी तारीख 23 नवंबर 2026।', NULL, now(), false),
+('manual:iari:fa-yp1-yp2:20261022', 'Young Professional-I (F&A) and Young Professional-II (F&A)', 'ICAR-IARI, New Delhi', 'Finance & Accounts', ARRAY['ICAR','Young Professional'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-11-25', '2026-10-22', 'https://iari.res.in/files/jobs/YP_Advertisement_22102026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, false,
+ 'YP-I and YP-II positions in Finance & Accounts at IARI. Last date 25 Nov 2026.', 'IARI में फाइनेंस एवं अकाउंट्स के लिए YP-I और YP-II पद। आखिरी तारीख 25 नवंबर 2026।', NULL, now(), false),
+('manual:iari:envsci-yp1:20261021', 'Young Professional-I (YP-I)', 'ICAR-IARI, New Delhi', 'Division of Environmental Sciences', ARRAY['ICAR','Young Professional'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-12-14', '2026-10-21', 'https://iari.res.in/files/jobs/Final_advertisement_21102026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, false,
+ 'YP-I position in IARI''s Environmental Sciences division. Last date 14 Dec 2026.', 'IARI के पर्यावरण विज्ञान डिवीजन में YP-I पद। आखिरी तारीख 14 दिसंबर 2026।', NULL, now(), false),
+('manual:iari:genetics-yp2:20261016', 'Young Professional-II (YP-II) — Walk-in interview', 'ICAR-IARI, New Delhi', 'Division of Genetics', ARRAY['ICAR','Young Professional'], '1', 'Postgraduate degree in Genetics / Plant Breeding / Genetics & Plant Breeding / Biotechnology / Molecular Biology & Biotechnology / allied life sciences', NULL, '₹42,000 per month (fixed)', 'New Delhi', '2026-11-13', '2026-10-16', 'https://iari.res.in/files/jobs/Website_publishing_matte_16102026r.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', ARRAY['M.Sc. Agriculture'], 'Walk-in', false,
+ 'One YP-II post (herbicide-tolerant soybean project). Walk-in interview on 13 Nov 2026 at 9:30 AM, Division of Genetics, IARI.', 'एक YP-II पद (सोयाबीन प्रोजेक्ट)। वॉक-इन इंटरव्यू 13 नवंबर 2026, सुबह 9:30, जेनेटिक्स डिवीजन, IARI।', NULL, now(), false),
+('manual:iari:biochem-yp2:20261016', 'Young Professional-II (YP-II)', 'ICAR-IARI, New Delhi', 'Division of Biochemistry', ARRAY['ICAR','Young Professional'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-11-20', '2026-10-16', 'https://iari.res.in/files/jobs/Recruitment_YP_II_16102026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, false,
+ 'YP-II position in IARI''s Biochemistry division. Last date 20 Nov 2026.', 'IARI के बायोकैमिस्ट्री डिवीजन में YP-II पद। आखिरी तारीख 20 नवंबर 2026।', NULL, now(), false),
+('manual:iari:pathology-pa2:20261013', 'Project Associate-II', 'ICAR-IARI, New Delhi', 'Division of Plant Pathology', ARRAY['ICAR','SRF/JRF'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-11-02', '2026-10-13', 'https://iari.res.in/files/jobs/Ad_letter_13102026_.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, false,
+ 'Project Associate-II in IARI''s Plant Pathology division. Last date 2 Nov 2026.', 'IARI के प्लांट पैथोलॉजी डिवीजन में प्रोजेक्ट एसोसिएट-II। आखिरी तारीख 2 नवंबर 2026।', NULL, now(), false),
+('manual:iari:pht-pa1:20261009', 'Project Associate-I (PA-I)', 'ICAR-IARI, New Delhi', 'Division of Food Science and Postharvest Technology', ARRAY['ICAR','SRF/JRF','Horticulture'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-11-16', '2026-10-09', 'https://iari.res.in/files/jobs/AKMU_Advertisement_09102026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, false,
+ 'Project Associate-I in IARI''s Food Science & Postharvest Technology division. Last date 16 Nov 2026.', 'IARI के फूड साइंस एवं पोस्टहार्वेस्ट टेक्नोलॉजी डिवीजन में प्रोजेक्ट एसोसिएट-I। आखिरी तारीख 16 नवंबर 2026।', 'Post-harvest technology is a core horticulture subject.', now(), false),
+('manual:iari:vegsci-srf-yp1-ppvfra:20261007', 'Senior Research Fellow & Young Professional-I (PPV&FRA project) — corrigendum issued', 'ICAR-IARI, New Delhi', 'Division of Vegetable Science', ARRAY['ICAR','Young Professional','SRF/JRF','Horticulture'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-11-05', '2026-10-07', 'https://iari.res.in/files/jobs/PPVFRA_Advt_07102026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, true,
+ 'SRF and YP-I positions in IARI''s Vegetable Science division. A corrigendum was issued on 26 Oct 2026 (iari.res.in/files/corrigendums/one_SRF_26102026.pdf). Last date 5 Nov 2026.', 'IARI के वेजिटेबल साइंस डिवीजन में SRF और YP-I पद। 26 अक्टूबर 2026 को शुद्धिपत्र जारी हुआ। आखिरी तारीख 5 नवंबर 2026।', 'Vegetable Science openings at India''s top horticulture division.', now(), true),
+('manual:iari:vegsci-srf-yp2-cauliflower:20261007', 'Senior Research Fellow & Young Professional-II — Walk-in (Cauliflower hybrid & Broccoli DUS projects)', 'ICAR-IARI, New Delhi', 'Division of Vegetable Science', ARRAY['ICAR','Young Professional','SRF/JRF','Horticulture'], '2', NULL, NULL, 'SRF ₹37,000 + HRA; YP-II ₹42,000 per month', 'New Delhi', '2026-11-02', '2026-10-07', 'https://iari.res.in/files/jobs/Cauliflower_Advt_07102026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', 'Walk-in', false,
+ 'One SRF (CRP Hybrid Technology – Cauliflower) and one YP-II (DUS testing of Broccoli). Walk-in interview on 2 Nov 2026 at 10:30 AM, Division of Vegetable Science, IARI.', 'एक SRF (फूलगोभी हाइब्रिड) और एक YP-II (ब्रोकली DUS)। वॉक-इन इंटरव्यू 2 नवंबर 2026, सुबह 10:30, वेजिटेबल साइंस डिवीजन, IARI।', 'Direct horticulture (vegetable) research posts.', now(), true),
+('manual:iari:envsci-yp-pa:20260930', 'YP-II, YP-I, Project Associate-II and Project Assistant', 'ICAR-IARI, New Delhi', 'Division of Environmental Sciences', ARRAY['ICAR','Young Professional','SRF/JRF'], NULL, NULL, NULL, NULL, 'New Delhi', '2026-10-31', '2026-09-30', 'https://iari.res.in/files/jobs/Advertisement_yp_30092026.pdf', NULL, 'https://iari.res.in/bms/announcements/jobs.php', 'verified', 'All India', 'All India', '{}', NULL, false,
+ 'Multiple contractual posts in IARI''s Environmental Sciences division. Last date 31 Oct 2026.', 'IARI के पर्यावरण विज्ञान डिवीजन में कई संविदा पद। आखिरी तारीख 31 अक्टूबर 2026।', NULL, now(), false),
+('manual:iivr:walkin-yp2:20261117', 'Young Professional-II, Lab Assistant, Computer Operator, Field Assistant & Skilled Helper — Walk-in', 'ICAR-IIVR, Varanasi', NULL, ARRAY['ICAR','Young Professional','Horticulture'], NULL, NULL, NULL, NULL, 'Varanasi, Uttar Pradesh', '2026-11-17', '2026-10-26', 'https://icariivr.org.in/iivr-file/wp-content/uploads/2026/10/Vacancy-Notification-1-17.11.2026', NULL, 'https://icariivr.org.in/notification/recruitment/', 'verified', 'All India', 'All India', '{}', 'Walk-in', false,
+ 'Walk-in interview for contractual YP-II and support posts at ICAR-Indian Institute of Vegetable Research on 17 Nov 2026, 10:00 AM.', 'ICAR-भारतीय सब्जी अनुसंधान संस्थान, वाराणसी में YP-II और अन्य संविदा पदों के लिए वॉक-इन इंटरव्यू 17 नवंबर 2026, सुबह 10:00।', 'Vegetable research institute — ideal for horticulture postgraduates.', now(), true),
+('manual:cish:yp2:20261014', 'Young Professional-II — Walk-in interview', 'ICAR-CISH, Lucknow', NULL, ARRAY['ICAR','Young Professional','Horticulture'], NULL, NULL, NULL, NULL, 'Lucknow, Uttar Pradesh', '2026-10-28', '2026-10-14', NULL, NULL, 'https://cish.org.in/Jobs', 'verified', 'All India', 'All India', '{}', 'Walk-in', false,
+ 'YP-II walk-in notice at ICAR-Central Institute for Subtropical Horticulture (posted 14 Oct 2026, last date 28 Oct 2026). Open the CISH jobs page for the PDF.', 'ICAR-केंद्रीय उपोष्ण बागवानी संस्थान, लखनऊ में YP-II वॉक-इन (आखिरी तारीख 28 अक्टूबर 2026)।', 'Fruit-crop (mango, guava) research institute.', now(), false),
+('manual:circot:yp2:20261028', 'Young Professional-II (1 post) — Walk-in on 28 Oct 2026', 'ICAR-CIRCOT, Mumbai', NULL, ARRAY['ICAR','Young Professional'], '1', NULL, NULL, NULL, 'Mumbai, Maharashtra', '2026-10-28', NULL, 'https://circot.icar.gov.in/walk-interview-one-01-post-young-professional-ii-yp-ii-icar-circot-mumbai-october-28-2026', NULL, 'https://circot.icar.gov.in/walk-interview-one-01-post-young-professional-ii-yp-ii-icar-circot-mumbai-october-28-2026', 'verified', 'All India', 'All India', '{}', 'Walk-in', false,
+ 'Walk-in interview for one YP-II at ICAR-Central Institute for Research on Cotton Technology, Mumbai on 28 Oct 2026.', 'ICAR-CIRCOT, मुंबई में एक YP-II पद के लिए वॉक-इन इंटरव्यू 28 अक्टूबर 2026।', NULL, now(), false),
+('manual:appsc:ho:192026', 'Horticulture Officer — A.P. Horticulture Service (Notification No. 19/2026) — last date extended', 'Andhra Pradesh Public Service Commission', 'A.P. Horticulture Service', ARRAY['Government Jobs','Horticulture'], '37', 'Four-year B.Sc. / B.Sc. (Hons) in Horticulture from a recognised or ICAR-accredited university', '18–44 years', '₹54,060 – ₹1,40,540', 'Andhra Pradesh', NULL, '2026-10-06', 'https://portal-psc.ap.gov.in/', 'https://portal-psc.ap.gov.in/', 'https://portal-psc.ap.gov.in/', 'verified', 'State Specific', 'Andhra Pradesh', ARRAY['B.Sc. Horticulture'], 'Online', true,
+ '37 Horticulture Officer posts. Original last date was 27 Oct 2026; APPSC published an extension notice on 27 Oct 2026 — check the portal for the new last date.', 'आंध्र प्रदेश में हॉर्टिकल्चर ऑफिसर के 37 पद। पहले आखिरी तारीख 27 अक्टूबर 2026 थी; APPSC ने 27 अक्टूबर को तारीख बढ़ाने का नोटिस जारी किया है — नई तारीख पोर्टल पर देखें।', 'A gazetted state post for B.Sc. Horticulture graduates.', now(), true),
+('manual:hppsc:ado:63-9-2026', 'Agriculture Development Officer (Advt. No. 63/9-2026) — last date extended to 30 Nov 2026', 'Himachal Pradesh Public Service Commission', 'Department of Agriculture, H.P.', ARRAY['Government Jobs'], NULL, NULL, NULL, NULL, 'Himachal Pradesh', '2026-11-30', '2026-10-22', 'https://hppsc.hp.gov.in/CommonControls/CMSFileView?qs=oeMK915q2HkdpWSZ%2B0aaIFmLDoF0cTjGvKykbXugJ5GFUtB47X3D4hMfV%2B3f6oOvDL5lwTA3MtdaOFtoyO3Gbtf1hnCgc%2BOaF3UIAW1Z0xo%3D', 'https://www.hppsc.hp.gov.in/hppsc', 'https://www.hppsc.hp.gov.in/hppsc', 'verified', 'State Specific', 'Himachal Pradesh', '{}', 'Online', true,
+ 'HPPSC has extended the online application date for Agriculture Development Officer to 30 Nov 2026, 11:59 PM (notice dated 22 Oct 2026).', 'HPPSC ने कृषि विकास अधिकारी (ADO) के ऑनलाइन आवेदन की आखिरी तारीख 30 नवंबर 2026 (रात 11:59) तक बढ़ा दी है।', NULL, now(), false),
+('manual:asrb:rmp:01-2026', '48 Research Management Positions (ASRB Advt. No. 01/2026) — last date extended', 'Agricultural Scientists Recruitment Board (ASRB)', 'ICAR', ARRAY['ICAR','Government Jobs'], '48', NULL, NULL, NULL, 'Various ICAR institutes', '2026-11-02', NULL, 'https://asrb.gov.in/UserDocs/__/__292804d7-2f30-41b6-9a51-bc5077a5281d_ASRB_Avdt.%2001-2026.pdf', 'https://oasis.asrb.gov.in/', 'https://asrb.gov.in/', 'verified', 'All India', 'All India', '{}', 'Online', true,
+ 'Senior research-management posts in ICAR. Last date extended to 02 Nov 2026, 5:00 PM (ASRB Notice-III).', 'ICAR में 48 वरिष्ठ रिसर्च मैनेजमेंट पद। आखिरी तारीख 02 नवंबर 2026, शाम 5:00 तक बढ़ाई गई।', NULL, now(), false)
+ON CONFLICT (fingerprint) DO NOTHING;
