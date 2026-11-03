@@ -10,7 +10,6 @@ import {
   ClipboardCheck,
   Library,
   Briefcase,
-  Megaphone,
   PencilLine,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
