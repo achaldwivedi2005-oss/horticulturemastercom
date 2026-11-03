@@ -17,9 +17,9 @@ export function parseKeyDates(value: unknown): KeyDate[] {
   return value
     .filter((d): d is Record<string, unknown> => !!d && typeof d === "object" && typeof (d as { label?: unknown }).label === "string")
     .map((d) => ({
-      label: String(d.label),
-      date: typeof d.date === "string" ? d.date : null,
-      text: typeof d.text === "string" ? d.text : null,
+      label: String(d["label"]),
+      date: typeof d["date"] === "string" ? d["date"] : null,
+      text: typeof d["text"] === "string" ? d["text"] : null,
     }));
 }
 
