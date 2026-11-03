@@ -20,6 +20,7 @@ import { driveLibraryQuery } from "@/lib/drive/drive.functions";
 import { jobPostingsQuery } from "@/lib/jobs/jobs-query";
 import { daysUntil } from "@/lib/jobs/classify";
 import { JobAlertsHighlight } from "@/components/jobs/JobAlerts";
+import { LatestUpdatesList } from "@/components/updates/ExamUpdates";
 import type * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
@@ -296,7 +297,7 @@ function UpdatesBoard() {
   const latestPdfs = (library?.files ?? []).slice(0, 5);
   const latestJobs = jobs.filter((j) => (daysUntil(j.deadline) ?? 1) >= 0).slice(0, 5);
 
-  const shell = (title: string, Icon: typeof Bell, to: "/jobs" | "/materials", body: React.ReactNode, i: number) => (
+  const shell = (title: string, Icon: typeof Bell, to: "/jobs" | "/materials" | "/updates", body: React.ReactNode, i: number) => (
     <Reveal key={title} delay={i * 90}>
       <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-5 shadow-soft">
         <div className="mb-5 flex items-center justify-between">
@@ -324,17 +325,7 @@ function UpdatesBoard() {
           />
         </Reveal>
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {shell(
-            "Latest notifications",
-            Bell,
-            "/jobs",
-            <EmptyState
-              icon={Bell}
-              title="No notifications yet"
-              description="Exam notices and announcements will appear here once published by the admin team."
-            />,
-            0,
-          )}
+          {shell("Latest notifications", Bell, "/updates", <LatestUpdatesList />, 0)}
           {shell(
             "Latest study materials",
             Library,
