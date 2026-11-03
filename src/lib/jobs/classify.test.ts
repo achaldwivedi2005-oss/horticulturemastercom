@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { classifyJob, daysUntil, isNewJob, normaliseDate } from "./classify";
+import { classifyJob, daysUntil, isNewJob, normaliseDate, isStaleNotice } from "./classify";
 
 describe("job categories", () => {
   it("tags Young Professional posts at ICAR institutes", () => {
