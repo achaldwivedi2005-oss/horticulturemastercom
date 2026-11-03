@@ -38,6 +38,7 @@ export const mainNav = [
   { to: "/quizzes", label: "Quizzes" },
   { to: "/materials", label: "Study Materials" },
   { to: "/jobs", label: "Jobs" },
+  { to: "/updates", label: "Exams & News" },
   { to: "/assistant", label: "AI Assistant" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },

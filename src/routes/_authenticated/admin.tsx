@@ -10,7 +10,6 @@ import {
   ClipboardCheck,
   Library,
   Briefcase,
-  Megaphone,
   PencilLine,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/site/EmptyState";
 import { StatusBadge } from "@/components/site/StatusBadge";
 import { AdminJobs } from "@/components/admin/AdminJobs";
+import { AdminUpdates } from "@/components/admin/AdminUpdates";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   beforeLoad: async ({ context }) => {
@@ -74,7 +74,6 @@ const contentModules = [
   { icon: ClipboardCheck, title: "Quizzes", text: "Build tests, set timer and marking scheme", stage: "Stage 3" },
   { icon: PencilLine, title: "Answers & explanations", text: "Edit any question after publishing", stage: "Stage 3" },
   { icon: Library, title: "Study materials", text: "Upload notes & PDFs by subject and topic", stage: "Stage 4" },
-  { icon: Megaphone, title: "Announcements", text: "Post exam notifications to the homepage", stage: "Stage 5" },
 ];
 
 function AdminPage() {
@@ -105,6 +104,7 @@ function AdminPage() {
           <TabsTrigger value="students" className="rounded-full px-4">Students</TabsTrigger>
           <TabsTrigger value="messages" className="rounded-full px-4">Messages</TabsTrigger>
           <TabsTrigger value="jobs" className="rounded-full px-4">Jobs</TabsTrigger>
+          <TabsTrigger value="updates" className="rounded-full px-4">Exams & News</TabsTrigger>
           <TabsTrigger value="content" className="rounded-full px-4">Content</TabsTrigger>
         </TabsList>
 
@@ -116,6 +116,9 @@ function AdminPage() {
         </TabsContent>
         <TabsContent value="jobs" className="mt-6">
           <AdminJobs />
+        </TabsContent>
+        <TabsContent value="updates" className="mt-6">
+          <AdminUpdates />
         </TabsContent>
         <TabsContent value="content" className="mt-6">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

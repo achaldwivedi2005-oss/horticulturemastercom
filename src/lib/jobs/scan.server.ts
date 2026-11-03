@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { createOpenAI } from "@ai-sdk/openai";
 import { NoObjectGeneratedError, Output, streamText } from "ai";
 import { z } from "zod/v4";
-import { classifyJob, degreeLevels, normaliseDate } from "./classify";
+import { classifyJob, degreeLevels, isStaleNotice, normaliseDate } from "./classify";
 
 const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1";
 const MODEL = "openai/gpt-6-astra";
@@ -328,6 +328,8 @@ export async function runJobScan(opts: { trigger: "schedule" | "manual"; force?:
         const applyUrl = p.apply_url && page.links.has(p.apply_url) ? p.apply_url : null;
         const deadline = normaliseDate(p.application_deadline);
         const published = normaliseDate(p.published_date);
+        // Archive sections list old notices with no deadline; don't present them as open jobs.
+        if (isStaleNotice({ deadline, published, url: notificationUrl })) continue;
         const institute = clip(p.institute, 200) ?? source.name.split("—")[0]?.trim() ?? null;
         const fingerprint = sha(
           (notificationUrl ? notificationUrl.toLowerCase() : `${source.id}|${title.toLowerCase()}|${deadline ?? ""}|${published ?? ""}`).trim(),

@@ -19,6 +19,7 @@ import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as MaterialsRouteImport } from './routes/materials'
 import { Route as QuizzesRouteImport } from './routes/quizzes'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as UpdatesRouteImport } from './routes/updates'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -74,6 +75,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UpdatesRoute = UpdatesRouteImport.update({
+  id: '/updates',
+  path: '/updates',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/materials': typeof MaterialsRoute
   '/quizzes': typeof QuizzesRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/updates': typeof UpdatesRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/api/chat': typeof ApiChatRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByTo {
   '/materials': typeof MaterialsRoute
   '/quizzes': typeof QuizzesRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/updates': typeof UpdatesRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/api/chat': typeof ApiChatRoute
@@ -145,6 +153,7 @@ export interface FileRoutesById {
   '/materials': typeof MaterialsRoute
   '/quizzes': typeof QuizzesRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/updates': typeof UpdatesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/api/chat': typeof ApiChatRoute
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/materials'
     | '/quizzes'
     | '/reset-password'
+    | '/updates'
     | '/admin'
     | '/dashboard'
     | '/api/chat'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/materials'
     | '/quizzes'
     | '/reset-password'
+    | '/updates'
     | '/admin'
     | '/dashboard'
     | '/api/chat'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/materials'
     | '/quizzes'
     | '/reset-password'
+    | '/updates'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/api/chat'
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   MaterialsRoute: typeof MaterialsRoute
   QuizzesRoute: typeof QuizzesRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  UpdatesRoute: typeof UpdatesRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiPublicJobsScanRoute: typeof ApiPublicJobsScanRoute
 }
@@ -290,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/updates': {
+      id: '/updates'
+      path: '/updates'
+      fullPath: '/updates'
+      preLoaderRoute: typeof UpdatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -354,6 +374,7 @@ const rootRouteChildren: RootRouteChildren = {
   MaterialsRoute: MaterialsRoute,
   QuizzesRoute: QuizzesRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  UpdatesRoute: UpdatesRoute,
   ApiChatRoute: ApiChatRoute,
   ApiPublicJobsScanRoute: ApiPublicJobsScanRoute,
 }

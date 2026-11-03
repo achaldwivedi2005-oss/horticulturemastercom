@@ -17,6 +17,8 @@ Spec reference: user's "PROJECT OBJECTIVE — Advanced Intelligence, RAG chatbot
 - [x] Job filters: qualification, scope/state, status, sort newest/closing soonest
 - [x] Monitor pauses cleanly when AI credits run out
 - [x] Added sources: ICAR-CISH, ICAR-CIAH, NHB; fixed ICAR HQ + ASRB links
+- [x] "Exams & News" page (ICAR PG/PhD counselling, ASRB NET/ARS, horticulture news) with Hindi toggle, homepage notifications, admin add/edit/hide/pin
+- [x] Current YP/SRF/state vacancies added by hand from official pages (3 Nov); monitor now skips old archive notices
 
 ## Blocked
 - [ ] Re-reading jobs (blocked: AI credits used up; daily credits reset 05:30 IST, then the next scheduled check refills the list)
@@ -27,7 +29,7 @@ Spec reference: user's "PROJECT OBJECTIVE — Advanced Intelligence, RAG chatbot
 - [ ] Expand monitored sources: NHB, MIDH, agriwelfare, PIB, NABARD, NSC, more ICAR institutes, SAUs, state PSCs
 - [ ] Research & new varieties hub (auto + admin)
 - [ ] Government schemes hub (MIDH/NHB/state)
-- [ ] Exams & admissions hub (ICAR PG/PhD, ASRB NET, CUET PG)
+- [ ] CUET-PG entries in Exams & News (add when NTA publishes 2027 notice)
 - [ ] "Latest Horticulture Intelligence" hub with category pills
 - [ ] Study-material-grounded AI chatbot (answers only from uploaded notes/books/PYQs, with source citations; Hinglish "not found" message)
 - [ ] Study material text + PYQ uploader in admin (feeds chatbot + quiz)
