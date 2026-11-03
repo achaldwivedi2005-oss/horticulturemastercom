@@ -66,3 +66,19 @@ describe("job status badges", () => {
     ).toContain("UPDATED NOTIFICATION");
   });
 });
+
+describe("isStaleNotice", () => {
+  const today = new Date("2026-11-03T00:00:00Z");
+  it("treats an April 2026 upload with no deadline as an old archive notice", () => {
+    expect(isStaleNotice({ deadline: null, published: null, url: "https://icariivr.org.in/iivr-file/wp-content/uploads/2026/04/vacancy-T3" }, today)).toBe(true);
+  });
+  it("keeps an October 2026 upload with no deadline", () => {
+    expect(isStaleNotice({ deadline: null, published: null, url: "https://x.org/wp-content/uploads/2026/10/notice" }, today)).toBe(false);
+  });
+  it("never drops a notice that has a deadline", () => {
+    expect(isStaleNotice({ deadline: "2026-04-10", published: "2026-03-01", url: null }, today)).toBe(false);
+  });
+  it("drops a notice published more than 90 days ago with no deadline", () => {
+    expect(isStaleNotice({ deadline: null, published: "2026-07-01", url: null }, today)).toBe(true);
+  });
+});

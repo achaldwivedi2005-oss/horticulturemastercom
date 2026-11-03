@@ -66,3 +66,23 @@ export function computeJobStatuses(
   if (!out.includes("CLOSING SOON")) out.push("APPLICATION OPEN");
   return out;
 }
+
+/** Notices with no deadline older than this many days are treated as archive entries, not open vacancies. */
+export const STALE_NOTICE_DAYS = 90;
+
+/**
+ * True when a scanned notice has no deadline and is clearly old — its published date, or the
+ * /uploads/YYYY/MM/ folder in its link, is more than STALE_NOTICE_DAYS before today.
+ * Prevents archive sections of recruitment pages from showing up as open jobs.
+ */
+export function isStaleNotice(
+  notice: { deadline: string | null; published: string | null; url: string | null },
+  today = new Date(),
+) {
+  if (notice.deadline) return false;
+  const cutoff = today.getTime() - STALE_NOTICE_DAYS * 86_400_000;
+  if (notice.published) return new Date(`${notice.published}T00:00:00Z`).getTime() < cutoff;
+  const m = notice.url?.match(/\/uploads\/(20\d{2})\/(\d{2})\//);
+  if (m) return Date.UTC(Number(m[1]), Number(m[2]), 1) < cutoff; // end of that upload month
+  return false;
+}
