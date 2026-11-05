@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { StatusBadge } from "@/components/site/StatusBadge";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -43,6 +44,7 @@ const roadmap: { stage: string; title: string; status: "live" | "soon" }[] = [
 ];
 
 function AboutPage() {
+  const { isAdmin } = useAuth();
   return (
     <>
       <PageHeader
@@ -81,7 +83,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-muted/40 py-16 md:py-24">
+      {isAdmin && <section className="bg-muted/40 py-16 md:py-24">
         <div className="container-page">
           <Reveal>
             <SectionHeading
@@ -104,7 +106,7 @@ function AboutPage() {
             ))}
           </ol>
         </div>
-      </section>
+      </section>}
     </>
   );
 }
