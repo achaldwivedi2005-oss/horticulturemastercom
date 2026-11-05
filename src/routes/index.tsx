@@ -32,7 +32,7 @@ function PhotoSlideshow() {
           alt={p.alt}
           fetchPriority={n === 0 ? "high" : "low"}
           loading={n === 0 ? "eager" : "lazy"}
-          className={`absolute inset-0 size-full object-cover transition-opacity duration-1000 ${n === i ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 size-full object-cover object-right-bottom transition-opacity duration-1000 ${n === i ? "opacity-100" : "opacity-0"}`}
         />
       ))}
     </div>
