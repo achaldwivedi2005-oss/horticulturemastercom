@@ -44,6 +44,7 @@ const roadmap: { stage: string; title: string; status: "live" | "soon" }[] = [
 ];
 
 function AboutPage() {
+  const { isAdmin } = useAuth();
   return (
     <>
       <PageHeader
