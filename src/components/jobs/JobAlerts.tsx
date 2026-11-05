@@ -238,8 +238,8 @@ export function JobCard({ job, index = 0, closingSoonDays = 7 }: { job: JobPosti
                 <BadgeCheck className="size-3.5" /> Verified{job.last_verified_at ? ` ${fmt(job.last_verified_at)}` : ""}
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1" title="Detected automatically from the official page.">
-                <Info className="size-3.5" /> Auto-detected · unverified
+              <span className="inline-flex items-center gap-1" title="Taken from the official page.">
+                <Info className="size-3.5" /> Confirm in official notice
               </span>
             )}
             {job.published_date ? <span>· Published {fmt(job.published_date)}</span> : null}
@@ -446,13 +446,13 @@ export function JobAlertsHighlight() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-destructive opacity-75" />
               <span className="relative inline-flex size-2 rounded-full bg-destructive" />
             </span>
-            Live job monitor
+            Live jobs
           </p>
           <h2 id="job-alerts-title" className="text-3xl font-semibold leading-tight text-balance sm:text-4xl">
             🚨 Latest Agriculture &amp; Horticulture Job Alerts
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Checked automatically from official ICAR, university and government recruitment pages.
+            Latest vacancies from official ICAR, university and government recruitment pages.
             {newCount > 0 ? ` ${newCount} new in the last 3 days.` : ""}
           </p>
         </div>
@@ -468,7 +468,7 @@ export function JobAlertsHighlight() {
             <Loader2 className="size-5 animate-spin" /> Loading…
           </div>
         ) : active.length === 0 ? (
-          <EmptyState icon={BellRing} title="No open vacancies right now" description="New official notifications will appear here automatically." />
+          <EmptyState icon={BellRing} title="No open vacancies right now" description="New official notifications will appear here." />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {active.map((j, i) => (
@@ -478,7 +478,7 @@ export function JobAlertsHighlight() {
         )}
       </div>
       <p className="mt-6 text-center text-xs text-muted-foreground">
-        Auto-detected items are copied from official pages and may be incomplete — always confirm in the official notice
+        Details are taken from official pages and may be incomplete — always confirm in the official notice
         before applying.
       </p>
     </section>

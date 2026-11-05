@@ -24,7 +24,7 @@ function PhotoSlideshow() {
     return () => clearInterval(t);
   }, []);
   return (
-    <div className="relative aspect-[4/4.4] w-full">
+    <div className="relative aspect-[4/3] w-full bg-deep">
       {brandPhotos.map((p, n) => (
         <img
           key={p.src}
@@ -32,7 +32,7 @@ function PhotoSlideshow() {
           alt={p.alt}
           fetchPriority={n === 0 ? "high" : "low"}
           loading={n === 0 ? "eager" : "lazy"}
-          className={`absolute inset-0 size-full object-cover object-right-bottom transition-opacity duration-1000 ${n === i ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 size-full object-contain transition-opacity duration-1000 ${n === i ? "opacity-100" : "opacity-0"}`}
         />
       ))}
     </div>
@@ -337,7 +337,7 @@ function UpdatesBoard() {
           <SectionHeading
             eyebrow="Stay updated"
             title="Notifications, notes & jobs"
-            description="Live from our study library and the official recruitment pages we monitor — no made-up listings."
+            description="Live from our study library and official recruitment pages — no made-up listings."
           />
         </Reveal>
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
@@ -389,7 +389,7 @@ function UpdatesBoard() {
               <EmptyState
                 icon={Briefcase}
                 title="No open vacancies"
-                description="Official ICAR, SAU and government vacancies will appear here automatically."
+                description="Official ICAR, SAU and government vacancies will appear here."
               />
             ),
             2,

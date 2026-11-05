@@ -9,7 +9,7 @@ export const Route = createFileRoute("/jobs")({
       {
         name: "description",
         content:
-          "Young Professional, SRF/JRF, ICAR and government agriculture & horticulture vacancies, monitored automatically from official recruitment pages.",
+          "Young Professional, SRF/JRF, ICAR and government agriculture & horticulture vacancies, from official recruitment pages.",
       },
       { property: "og:title", content: "Agriculture & Horticulture Job Alerts — Horticulture Master" },
       {
