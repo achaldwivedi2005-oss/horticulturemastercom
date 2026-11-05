@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ShieldCheck, Target, Sprout, Layers } from "lucide-react";
-import aboutImage from "@/assets/about-farm.jpg";
+import labPhoto from "@/assets/lab_flask_research.jpg.asset.json";
+const aboutImage = labPhoto.url;
 import { PageHeader } from "@/components/site/PageHeader";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeading } from "@/components/site/SectionHeading";

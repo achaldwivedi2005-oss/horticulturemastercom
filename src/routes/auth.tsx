@@ -3,7 +3,8 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2, MailCheck, ArrowLeft } from "lucide-react";
-import heroImage from "@/assets/hero-horticulture.jpg";
+import nurseryPhoto from "@/assets/nursery_seedlings.jpg.asset.json";
+const heroImage = nurseryPhoto.url;
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { safeRedirect, useAuth } from "@/hooks/use-auth";
@@ -63,7 +64,7 @@ function AuthPage() {
   return (
     <section className="container-page grid min-h-[calc(100vh-4rem)] items-center gap-10 py-10 lg:grid-cols-2">
       <div className="relative hidden h-full max-h-[720px] overflow-hidden rounded-[2rem] lg:block">
-        <img src={heroImage} alt="" width={1280} height={1440} className="absolute inset-0 size-full object-cover" />
+        <img src={heroImage} alt="" width={1280} height={1440} className="absolute inset-0 size-full object-cover object-right-bottom" />
         <div className="absolute inset-0 bg-gradient-to-t from-deep via-deep/40 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-10 text-deep-foreground">
           <LogoMark className="size-16 rounded-2xl bg-card/90 p-1.5" />
