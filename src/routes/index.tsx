@@ -14,7 +14,30 @@ import {
   BarChart3,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import heroImage from "@/assets/hero-horticulture.jpg";
+import { useEffect, useState } from "react";
+import { brandPhotos } from "@/lib/photos";
+
+function PhotoSlideshow() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((n) => (n + 1) % brandPhotos.length), 4500);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="relative aspect-[4/4.4] w-full">
+      {brandPhotos.map((p, n) => (
+        <img
+          key={p.src}
+          src={p.src}
+          alt={p.alt}
+          fetchPriority={n === 0 ? "high" : "low"}
+          loading={n === 0 ? "eager" : "lazy"}
+          className={`absolute inset-0 size-full object-cover object-right-bottom transition-opacity duration-1000 ${n === i ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+    </div>
+  );
+}
 import { supabase } from "@/integrations/supabase/client";
 import { driveLibraryQuery } from "@/lib/drive/drive.functions";
 import { jobPostingsQuery } from "@/lib/jobs/jobs-query";
@@ -113,14 +136,7 @@ function Hero() {
         <div className="relative mx-auto w-full max-w-md animate-fade-up lg:max-w-none" style={{ animationDelay: "200ms" }}>
           <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-primary opacity-20 blur-2xl" />
           <div className="overflow-hidden rounded-[2rem] border border-card shadow-lift">
-            <img
-              src={heroImage}
-              alt="Fresh mangoes, tomatoes, okra, marigolds and seedlings beside an open botanical notebook"
-              width={1280}
-              height={1440}
-              fetchPriority="high"
-              className="aspect-[4/4.4] w-full object-cover"
-            />
+            <PhotoSlideshow />
           </div>
           <div className="absolute -left-3 top-8 animate-float rounded-2xl border border-border bg-card/90 p-3.5 shadow-lift backdrop-blur sm:-left-8">
             <div className="flex items-center gap-3">
