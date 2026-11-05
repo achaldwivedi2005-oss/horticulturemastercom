@@ -55,11 +55,11 @@ function AboutPage() {
         <Reveal className="overflow-hidden rounded-3xl shadow-lift">
           <img
             src={aboutImage}
-            alt="Students examining vegetable crops on a research farm at sunset, with a mango orchard and polyhouse"
+            alt="Researcher handling flasks in a plant science laboratory"
             width={1600}
             height={912}
             loading="lazy"
-            className="aspect-[16/9] w-full object-cover"
+            className="aspect-[16/9] w-full object-cover object-right-bottom"
           />
         </Reveal>
       </section>
