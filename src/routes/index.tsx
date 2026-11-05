@@ -24,7 +24,7 @@ function PhotoSlideshow() {
     return () => clearInterval(t);
   }, []);
   return (
-    <div className="relative aspect-[4/3] w-full bg-deep">
+    <div className="relative aspect-[4/3] w-full bg-muted">
       {brandPhotos.map((p, n) => (
         <img
           key={p.src}

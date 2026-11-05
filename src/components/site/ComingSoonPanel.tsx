@@ -1,12 +1,14 @@
 import { CheckCircle2, Hammer } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { StatusBadge } from "./StatusBadge";
+import { useAuth } from "@/hooks/use-auth";
 
 /**
  * Honest placeholder for sections that are designed but not yet functional.
  * Lists the features planned for the section so nothing is passed off as live.
  */
 export function ComingSoonPanel({ stage, features }: { stage: string; features: string[] }) {
+  const { isAdmin } = useAuth();
   return (
     <section className="container-page py-14 md:py-20">
       <Reveal className="overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
@@ -18,10 +20,12 @@ export function ComingSoonPanel({ stage, features }: { stage: string; features: 
             </span>
             <h2 className="mt-6 text-3xl font-semibold">Being built</h2>
             <p className="mt-3 text-deep-foreground/75">
-              This section is designed and scheduled for <strong className="text-deep-foreground">{stage}</strong>.
-              Nothing shown here is live data yet.
+              {isAdmin ? (
+                <>This section is scheduled for <strong className="text-deep-foreground">{stage}</strong>. </>
+              ) : null}
+              This section is coming soon.
             </p>
-            <StatusBadge status="soon" className="mt-6" label={stage} />
+            <StatusBadge status="soon" className="mt-6" label={isAdmin ? stage : "Coming soon"} />
           </div>
           <div className="p-8 md:p-10">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Planned features</p>
