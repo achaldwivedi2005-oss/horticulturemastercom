@@ -279,7 +279,7 @@ function FeaturedSubjects() {
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {subjects.map((s, i) => (
           <Reveal key={s.slug} delay={(i % 4) * 70}>
-            <a href={site.social.telegramGroup} target="_blank" rel="noopener noreferrer" aria-label="Join the Telegram quiz group" className="card-lift group flex h-full items-start gap-4 rounded-2xl border border-border bg-card p-5">
+            <a {...(s.slug === "fruit-science" ? { href: "/fruit-science" } : { href: site.social.telegramGroup, target: "_blank", rel: "noopener noreferrer" })} className="card-lift group flex h-full items-start gap-4 rounded-2xl border border-border bg-card p-5">
               <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted text-primary transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-6deg]">
                 <s.icon className="size-5" />
               </span>
