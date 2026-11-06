@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FruitScienceRouteImport } from './routes/fruit-science'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as MaterialsRouteImport } from './routes/materials'
 import { Route as QuizzesRouteImport } from './routes/quizzes'
@@ -53,6 +54,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FruitScienceRoute = FruitScienceRouteImport.update({
+  id: '/fruit-science',
+  path: '/fruit-science',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsRoute = JobsRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/fruit-science': typeof FruitScienceRoute
   '/jobs': typeof JobsRoute
   '/materials': typeof MaterialsRoute
   '/quizzes': typeof QuizzesRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/fruit-science': typeof FruitScienceRoute
   '/jobs': typeof JobsRoute
   '/materials': typeof MaterialsRoute
   '/quizzes': typeof QuizzesRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/fruit-science': typeof FruitScienceRoute
   '/jobs': typeof JobsRoute
   '/materials': typeof MaterialsRoute
   '/quizzes': typeof QuizzesRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/contact'
+    | '/fruit-science'
     | '/jobs'
     | '/materials'
     | '/quizzes'
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/contact'
+    | '/fruit-science'
     | '/jobs'
     | '/materials'
     | '/quizzes'
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/contact'
+    | '/fruit-science'
     | '/jobs'
     | '/materials'
     | '/quizzes'
@@ -222,6 +234,7 @@ export interface RootRouteChildren {
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  FruitScienceRoute: typeof FruitScienceRoute
   JobsRoute: typeof JobsRoute
   MaterialsRoute: typeof MaterialsRoute
   QuizzesRoute: typeof QuizzesRoute
@@ -273,6 +286,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fruit-science': {
+      id: '/fruit-science'
+      path: '/fruit-science'
+      fullPath: '/fruit-science'
+      preLoaderRoute: typeof FruitScienceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs': {
@@ -370,6 +390,7 @@ const rootRouteChildren: RootRouteChildren = {
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  FruitScienceRoute: FruitScienceRoute,
   JobsRoute: JobsRoute,
   MaterialsRoute: MaterialsRoute,
   QuizzesRoute: QuizzesRoute,
