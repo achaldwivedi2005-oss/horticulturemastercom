@@ -138,7 +138,7 @@ function Hero() {
           <div className="overflow-hidden rounded-[2rem] border border-card shadow-lift">
             <PhotoSlideshow />
           </div>
-          <div className="absolute -left-3 top-8 animate-float rounded-2xl border border-border bg-card/90 p-3.5 shadow-lift backdrop-blur sm:-left-8">
+          <a href={site.social.telegramGroup} target="_blank" rel="noopener noreferrer" aria-label="Join the Telegram quiz group" className="absolute -left-3 top-8 transition-transform hover:scale-105 animate-float rounded-2xl border border-border bg-card/90 p-3.5 shadow-lift backdrop-blur sm:-left-8">
             <div className="flex items-center gap-3">
               <span className="grid size-10 place-items-center rounded-xl bg-secondary text-primary">
                 <Timer className="size-5" />
@@ -148,9 +148,10 @@ function Hero() {
                 <p className="text-xs text-muted-foreground">With negative marking</p>
               </div>
             </div>
-          </div>
-          <div
-            className="absolute -right-2 bottom-10 animate-float-slow rounded-2xl border border-border bg-card/90 p-3.5 shadow-lift backdrop-blur sm:-right-6"
+          </a>
+          <a
+            href={site.social.telegramGroup} target="_blank" rel="noopener noreferrer" aria-label="Join the Telegram quiz group"
+            className="absolute -right-2 bottom-10 transition-transform hover:scale-105 animate-float-slow rounded-2xl border border-border bg-card/90 p-3.5 shadow-lift backdrop-blur sm:-right-6"
             style={{ animationDelay: "1.5s" }}
           >
             <div className="flex items-center gap-3">
@@ -162,7 +163,7 @@ function Hero() {
                 <p className="text-xs text-muted-foreground">Subject-wise analytics</p>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </section>
@@ -278,7 +279,7 @@ function FeaturedSubjects() {
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {subjects.map((s, i) => (
           <Reveal key={s.slug} delay={(i % 4) * 70}>
-            <div className="card-lift group flex h-full items-start gap-4 rounded-2xl border border-border bg-card p-5">
+            <a href={site.social.telegramGroup} target="_blank" rel="noopener noreferrer" aria-label="Join the Telegram quiz group" className="card-lift group flex h-full items-start gap-4 rounded-2xl border border-border bg-card p-5">
               <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted text-primary transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[-6deg]">
                 <s.icon className="size-5" />
               </span>
@@ -286,7 +287,7 @@ function FeaturedSubjects() {
                 <p className="font-semibold leading-snug">{s.name}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{s.focus}</p>
               </div>
-            </div>
+            </a>
           </Reveal>
         ))}
       </div>
@@ -296,9 +297,9 @@ function FeaturedSubjects() {
           { icon: Target, text: "Positive & negative marking" },
           { icon: BookOpen, text: "Answer explanations & review" },
         ].map(({ icon: Icon, text }) => (
-          <div key={text} className="flex items-center gap-3 text-sm font-medium">
+          <a key={text} href={site.social.telegramGroup} target="_blank" rel="noopener noreferrer" aria-label="Join the Telegram quiz group" className="flex items-center gap-3 text-sm font-medium hover:text-primary">
             <Icon className="size-4 text-primary" /> {text}
-          </div>
+          </a>
         ))}
       </Reveal>
     </section>
