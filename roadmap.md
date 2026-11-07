@@ -26,6 +26,8 @@ Spec reference: user's "PROJECT OBJECTIVE — Advanced Intelligence, RAG chatbot
 - [ ] NBPGR + ASRB pages time out from our server (may need Firecrawl)
 
 ## Next (from spec)
+- [ ] Add Horticulture Master notes / Other books columns without removing PDFs or controls
+- [ ] Complete fruit English/common names and photos from the supplied list
 - [ ] Expand monitored sources: NHB, MIDH, agriwelfare, PIB, NABARD, NSC, more ICAR institutes, SAUs, state PSCs
 - [ ] Research & new varieties hub (auto + admin)
 - [ ] Government schemes hub (MIDH/NHB/state)
