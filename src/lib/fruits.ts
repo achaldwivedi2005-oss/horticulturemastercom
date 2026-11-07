@@ -1,5 +1,62 @@
+import fruitImage0 from "@/assets/fruits/mango.jpg.asset.json";
+import fruitImage1 from "@/assets/fruits/banana.jpg.asset.json";
+import fruitImage2 from "@/assets/fruits/apple.jpg.asset.json";
+import fruitImage3 from "@/assets/fruits/grape.jpg.asset.json";
+import fruitImage4 from "@/assets/fruits/guava.jpg.asset.json";
+import fruitImage5 from "@/assets/fruits/papaya.jpg.asset.json";
+import fruitImage6 from "@/assets/fruits/pineapple.jpg.asset.json";
+import fruitImage7 from "@/assets/fruits/litchi.jpg.asset.json";
+import fruitImage8 from "@/assets/fruits/pomegranate.jpg.asset.json";
+import fruitImage9 from "@/assets/fruits/sapota.jpg.asset.json";
+import fruitImage10 from "@/assets/fruits/aonla.jpg.asset.json";
+import fruitImage11 from "@/assets/fruits/ber.jpg.asset.json";
+import fruitImage12 from "@/assets/fruits/jackfruit.jpg.asset.json";
+import fruitImage13 from "@/assets/fruits/pear.jpg.asset.json";
+import fruitImage14 from "@/assets/fruits/peach-and-nectarines.jpg.asset.json";
+import fruitImage15 from "@/assets/fruits/plum.jpg.asset.json";
+import fruitImage16 from "@/assets/fruits/apricot.jpg.asset.json";
+import fruitImage17 from "@/assets/fruits/cherry.jpg.asset.json";
+import fruitImage18 from "@/assets/fruits/almond.jpg.asset.json";
+import fruitImage19 from "@/assets/fruits/walnut.jpg.asset.json";
+import fruitImage20 from "@/assets/fruits/strawberry.jpg.asset.json";
+import fruitImage21 from "@/assets/fruits/date-palm.jpg.asset.json";
+import fruitImage22 from "@/assets/fruits/fig.jpg.asset.json";
+import fruitImage23 from "@/assets/fruits/kiwifruit.jpg.asset.json";
+import fruitImage24 from "@/assets/fruits/sweet-orange.jpg.asset.json";
+import fruitImage25 from "@/assets/fruits/mandarin.jpg.asset.json";
+import fruitImage26 from "@/assets/fruits/limes-lemons.jpg.asset.json";
+import fruitImage27 from "@/assets/fruits/grapefruit.jpg.asset.json";
+import fruitImage28 from "@/assets/fruits/pummelo.jpg.asset.json";
+import fruitImage29 from "@/assets/fruits/annonaceous-fruits.jpg.asset.json";
+import fruitImage30 from "@/assets/fruits/avocado.jpg.asset.json";
+import fruitImage31 from "@/assets/fruits/bael.jpg.asset.json";
+import fruitImage32 from "@/assets/fruits/breadfruit.jpg.asset.json";
+import fruitImage33 from "@/assets/fruits/cape-gooseberry.jpg.asset.json";
+import fruitImage34 from "@/assets/fruits/carambola.jpg.asset.json";
+import fruitImage35 from "@/assets/fruits/chironji.jpg.asset.json";
+import fruitImage36 from "@/assets/fruits/durian.jpg.asset.json";
+import fruitImage37 from "@/assets/fruits/jamun.jpg.asset.json";
+import fruitImage38 from "@/assets/fruits/karonda.jpg.asset.json";
+import fruitImage39 from "@/assets/fruits/kokum.jpg.asset.json";
+import fruitImage40 from "@/assets/fruits/loquat.jpg.asset.json";
+import fruitImage41 from "@/assets/fruits/macadamia-nuts.jpg.asset.json";
+import fruitImage42 from "@/assets/fruits/mahua.jpg.asset.json";
+import fruitImage43 from "@/assets/fruits/mangosteen.jpg.asset.json";
+import fruitImage44 from "@/assets/fruits/minor-arid-fruits.jpg.asset.json";
+import fruitImage45 from "@/assets/fruits/minor-temperate-nut-crops.jpg.asset.json";
+import fruitImage46 from "@/assets/fruits/olive.jpg.asset.json";
+import fruitImage47 from "@/assets/fruits/opuntia-pear.jpg.asset.json";
+import fruitImage48 from "@/assets/fruits/passion-fruit.jpg.asset.json";
+import fruitImage49 from "@/assets/fruits/pecan-nut.jpg.asset.json";
+import fruitImage50 from "@/assets/fruits/persimmon.jpg.asset.json";
+import fruitImage51 from "@/assets/fruits/phalsa.jpg.asset.json";
+import fruitImage52 from "@/assets/fruits/rambutan.jpg.asset.json";
+import fruitImage53 from "@/assets/fruits/sea-buckthorn.jpg.asset.json";
+import fruitImage54 from "@/assets/fruits/tamarind.jpg.asset.json";
+import fruitImage55 from "@/assets/fruits/wood-apple.jpg.asset.json";
+
 /** Fruit Science crop list (from the syllabus contents the admin shared). Photos: Wikipedia/Wikimedia Commons. */
-export type Fruit = { name: string; image: string | null };
+export type Fruit = { name: string; englishName: string; otherNames: string; image: string | null };
 
 export const fruitGroups: { id: string; title: string; description: string; fruits: Fruit[] }[] = [
   {
@@ -7,30 +64,30 @@ export const fruitGroups: { id: string; title: string; description: string; frui
     title: "Major fruit crops",
     description: "Commercially important fruit crops — most asked in exams.",
     fruits: [
-    { name: "Mango", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Mangos_-_single_and_halved.jpg/330px-Mangos_-_single_and_halved.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Banana", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Bananavarieties.jpg/330px-Bananavarieties.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Apple", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Pink_lady_and_cross_section.jpg/330px-Pink_lady_and_cross_section.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Grape", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Grapes%2C_Rostov-on-Don%2C_Russia.jpg/330px-Grapes%2C_Rostov-on-Don%2C_Russia.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Guava", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Guava_pink_fruit.jpg/330px-Guava_pink_fruit.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Papaya", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Carica_papaya_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-029.jpg/330px-Carica_papaya_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-029.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Pineapple", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/%E0%B4%95%E0%B5%88%E0%B4%A4%E0%B4%9A%E0%B5%8D%E0%B4%9A%E0%B4%95%E0%B5%8D%E0%B4%95.jpg/330px-%E0%B4%95%E0%B5%88%E0%B4%A4%E0%B4%9A%E0%B5%8D%E0%B4%9A%E0%B4%95%E0%B5%8D%E0%B4%95.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Litchi", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Litchi_chinensis_fruits.JPG/330px-Litchi_chinensis_fruits.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Pomegranate", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Pomegranate_Juice_%282019%29.jpg/330px-Pomegranate_Juice_%282019%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Sapota", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/%E0%B4%B8%E0%B4%AA%E0%B5%8D%E0%B4%AA%E0%B5%8B%E0%B4%9F%E0%B5%8D%E0%B4%9F.jpg/330px-%E0%B4%B8%E0%B4%AA%E0%B5%8D%E0%B4%AA%E0%B5%8B%E0%B4%9F%E0%B5%8D%E0%B4%9F.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Aonla", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Phyllanthus_officinalis.jpg/330px-Phyllanthus_officinalis.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Ber", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Ziziphus_mauritiana_-_Jujube.jpg/330px-Ziziphus_mauritiana_-_Jujube.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Jackfruit", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/The_jackfruit_is_holding_on_to_the_tree.jpg/330px-The_jackfruit_is_holding_on_to_the_tree.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Pear", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Pears.jpg/330px-Pears.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Peach and Nectarines", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Illustration_Prunus_persica_clean_no_descr.jpg/330px-Illustration_Prunus_persica_clean_no_descr.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Plum", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Plums_African_Rose_-_whole%2C_halved_and_slice.jpg/330px-Plums_African_Rose_-_whole%2C_halved_and_slice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Apricot", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Apricot_and_cross_section.jpg/330px-Apricot_and_cross_section.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Cherry", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Cherry_season_%2848216568227%29.jpg/330px-Cherry_season_%2848216568227%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Almond", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Almonds_-_in_shell%2C_shell_cracked_open%2C_shelled%2C_blanched.jpg/330px-Almonds_-_in_shell%2C_shell_cracked_open%2C_shelled%2C_blanched.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Walnut", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Walnuts_-_whole_and_open_with_halved_kernel.jpg/330px-Walnuts_-_whole_and_open_with_halved_kernel.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Strawberry", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg/330px-Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Date Palm", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Dates005.jpg/330px-Dates005.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Fig", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Ficus_carica_L%2C_1771.jpg/330px-Ficus_carica_L%2C_1771.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Kiwifruit", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Actinidia_fruits.jpg/330px-Actinidia_fruits.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" }
+    { name: "Mango", englishName: "Mango", otherNames: "Aam", image: fruitImage0.url },
+    { name: "Banana", englishName: "Banana", otherNames: "Kela", image: fruitImage1.url },
+    { name: "Apple", englishName: "Apple", otherNames: "Seb", image: fruitImage2.url },
+    { name: "Grape", englishName: "Grape", otherNames: "Angoor", image: fruitImage3.url },
+    { name: "Guava", englishName: "Guava", otherNames: "Amrood / Peru", image: fruitImage4.url },
+    { name: "Papaya", englishName: "Papaya", otherNames: "Papita", image: fruitImage5.url },
+    { name: "Pineapple", englishName: "Pineapple", otherNames: "Ananas", image: fruitImage6.url },
+    { name: "Litchi", englishName: "Lychee", otherNames: "Litchi", image: fruitImage7.url },
+    { name: "Pomegranate", englishName: "Pomegranate", otherNames: "Anar", image: fruitImage8.url },
+    { name: "Sapota", englishName: "Sapodilla", otherNames: "Chikoo / Sapota", image: fruitImage9.url },
+    { name: "Aonla", englishName: "Indian gooseberry", otherNames: "Amla / Aonla", image: fruitImage10.url },
+    { name: "Ber", englishName: "Indian jujube", otherNames: "Ber", image: fruitImage11.url },
+    { name: "Jackfruit", englishName: "Jackfruit", otherNames: "Kathal", image: fruitImage12.url },
+    { name: "Pear", englishName: "Pear", otherNames: "Nashpati", image: fruitImage13.url },
+    { name: "Peach and Nectarines", englishName: "Peach and nectarine", otherNames: "Aadoo (peach); nectarine is a smooth-skinned peach", image: fruitImage14.url },
+    { name: "Plum", englishName: "Plum", otherNames: "Aloo bukhara", image: fruitImage15.url },
+    { name: "Apricot", englishName: "Apricot", otherNames: "Khubani", image: fruitImage16.url },
+    { name: "Cherry", englishName: "Cherry", otherNames: "Sweet and sour cherry types", image: fruitImage17.url },
+    { name: "Almond", englishName: "Almond", otherNames: "Badam", image: fruitImage18.url },
+    { name: "Walnut", englishName: "Walnut", otherNames: "Akhrot", image: fruitImage19.url },
+    { name: "Strawberry", englishName: "Strawberry", otherNames: "Garden strawberry", image: fruitImage20.url },
+    { name: "Date Palm", englishName: "Date palm", otherNames: "Khajoor", image: fruitImage21.url },
+    { name: "Fig", englishName: "Fig", otherNames: "Anjeer", image: fruitImage22.url },
+    { name: "Kiwifruit", englishName: "Kiwifruit", otherNames: "Kiwi / Chinese gooseberry", image: fruitImage23.url }
     ],
   },
   {
@@ -38,11 +95,11 @@ export const fruitGroups: { id: string; title: string; description: string; frui
     title: "Citrus fruits",
     description: "Oranges, mandarins, limes, lemons and their relatives.",
     fruits: [
-    { name: "Sweet Orange", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Oranges_-_whole-halved-segment.jpg/330px-Oranges_-_whole-halved-segment.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Mandarin", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Citrus_reticulata_April_2013_Nordbaden.JPG/330px-Citrus_reticulata_April_2013_Nordbaden.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Limes/Lemons", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/P1030323.JPG/330px-P1030323.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Grapefruit", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Grapefruits_-_whole-halved-segments.jpg/330px-Grapefruits_-_whole-halved-segments.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Pummelo", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Pomelo_fruit.jpg/330px-Pomelo_fruit.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" }
+    { name: "Sweet Orange", englishName: "Sweet orange", otherNames: "Orange", image: fruitImage24.url },
+    { name: "Mandarin", englishName: "Mandarin orange", otherNames: "Mandarin / Santra", image: fruitImage25.url },
+    { name: "Limes/Lemons", englishName: "Lime and lemon", otherNames: "Nimbu", image: fruitImage26.url },
+    { name: "Grapefruit", englishName: "Grapefruit", otherNames: "Grapefruit", image: fruitImage27.url },
+    { name: "Pummelo", englishName: "Pomelo", otherNames: "Pummelo / Chakotra", image: fruitImage28.url }
     ],
   },
   {
@@ -50,33 +107,33 @@ export const fruitGroups: { id: string; title: string; description: string; frui
     title: "Minor fruit crops",
     description: "Underutilised, arid, tropical and temperate nut crops.",
     fruits: [
-    { name: "Annonaceous Fruits", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Sugar_apple_on_tree.jpg/330px-Sugar_apple_on_tree.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Avocado", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Persea_americana_fruit_2.JPG/330px-Persea_americana_fruit_2.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Bael", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Bael_%28Aegle_marmelos%29_tree_at_Narendrapur_W_IMG_4116.jpg/330px-Bael_%28Aegle_marmelos%29_tree_at_Narendrapur_W_IMG_4116.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Breadfruit", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Artocarpus_altilis_%28fruit%29.jpg/330px-Artocarpus_altilis_%28fruit%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Cape Gooseberry", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Uchuva_2005.jpg/330px-Uchuva_2005.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Carambola", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Averrhoa_carambola_ARS_k5735-7.jpg/330px-Averrhoa_carambola_ARS_k5735-7.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Chironji", image: null },
-    { name: "Durian", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Durian_in_black.jpg/330px-Durian_in_black.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Jamun", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Syzygium_cumini_Bra30.png/330px-Syzygium_cumini_Bra30.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Karonda", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Carissa_carandas_flowers.JPG/330px-Carissa_carandas_flowers.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Kokum", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Garcinia_indica_-_fruits%2C_seeds%2C_pulp_and_rinds.jpg/330px-Garcinia_indica_-_fruits%2C_seeds%2C_pulp_and_rinds.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Loquat", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Loquat-0.jpg/330px-Loquat-0.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Macadamia Nuts", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Macadamia_nuts_on_tree.JPG/330px-Macadamia_nuts_on_tree.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Mahua", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Mahuwa_trees_in_Chhattisgarh.jpg/330px-Mahuwa_trees_in_Chhattisgarh.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Mangosteen", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Berthe_Hoola_van_Nooten48.jpg/330px-Berthe_Hoola_van_Nooten48.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Minor Arid Fruits", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Kair.jpg/330px-Kair.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Minor Temperate Nut Crops", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Hazelnuts_%28Corylus_avellana%29_-_whole_with_kernels_%28cropped2%29.jpg/330px-Hazelnuts_%28Corylus_avellana%29_-_whole_with_kernels_%28cropped2%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Olive", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Olivesfromjordan.jpg/330px-Olivesfromjordan.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Opuntia Pear", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Dikenli_%C4%B0ncir_%28Opuntia_ficus-indica%29_Gaziantep_Turkey.IMG_1104.jpg/330px-Dikenli_%C4%B0ncir_%28Opuntia_ficus-indica%29_Gaziantep_Turkey.IMG_1104.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Passion Fruit", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Passiflora_edulis_forma_flavicarpa.jpg/330px-Passiflora_edulis_forma_flavicarpa.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Pecan nut", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Carya_illinoinensis.jpg/330px-Carya_illinoinensis.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Persimmon", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Fuyu_persimmon_fruits%2C_one_cut_open.jpg/330px-Fuyu_persimmon_fruits%2C_one_cut_open.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Phalsa", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Phalsa03_Asit.jpg/330px-Phalsa03_Asit.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Rambutan", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Rambutan_white_background_alt.jpg/330px-Rambutan_white_background_alt.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Sea Buckthorn", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Hippophae_rhamnoides-01_%28xndr%29.JPG/330px-Hippophae_rhamnoides-01_%28xndr%29.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Tamarind", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Tamarindus_indica_pods.JPG/330px-Tamarindus_indica_pods.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" },
-    { name: "Wood Apple", image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Wood-apple_tree.JPG/330px-Wood-apple_tree.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail" }
+    { name: "Annonaceous Fruits", englishName: "Annonaceous fruits", otherNames: "Examples: sugar apple, custard apple, soursop", image: fruitImage29.url },
+    { name: "Avocado", englishName: "Avocado", otherNames: "Butter fruit", image: fruitImage30.url },
+    { name: "Bael", englishName: "Bael", otherNames: "Bel / Bengal quince", image: fruitImage31.url },
+    { name: "Breadfruit", englishName: "Breadfruit", otherNames: "Breadfruit", image: fruitImage32.url },
+    { name: "Cape Gooseberry", englishName: "Cape gooseberry", otherNames: "Goldenberry / Rasbhari", image: fruitImage33.url },
+    { name: "Carambola", englishName: "Star fruit", otherNames: "Carambola / Kamrakh", image: fruitImage34.url },
+    { name: "Chironji", englishName: "Chironji", otherNames: "Charoli / Piyal / Almondette", image: fruitImage35.url },
+    { name: "Durian", englishName: "Durian", otherNames: "Durian", image: fruitImage36.url },
+    { name: "Jamun", englishName: "Java plum", otherNames: "Jamun / Black plum", image: fruitImage37.url },
+    { name: "Karonda", englishName: "Bengal currant", otherNames: "Karonda", image: fruitImage38.url },
+    { name: "Kokum", englishName: "Kokum", otherNames: "Kokam", image: fruitImage39.url },
+    { name: "Loquat", englishName: "Loquat", otherNames: "Japanese medlar", image: fruitImage40.url },
+    { name: "Macadamia Nuts", englishName: "Macadamia nuts", otherNames: "Queensland nut", image: fruitImage41.url },
+    { name: "Mahua", englishName: "Mahua", otherNames: "Mahua / Mahuwa", image: fruitImage42.url },
+    { name: "Mangosteen", englishName: "Mangosteen", otherNames: "Purple mangosteen", image: fruitImage43.url },
+    { name: "Minor Arid Fruits", englishName: "Minor arid fruits", otherNames: "Examples: ker, lasora, pilu", image: fruitImage44.url },
+    { name: "Minor Temperate Nut Crops", englishName: "Minor temperate nut crops", otherNames: "Examples: hazelnut, chestnut", image: fruitImage45.url },
+    { name: "Olive", englishName: "Olive", otherNames: "Zaitoon", image: fruitImage46.url },
+    { name: "Opuntia Pear", englishName: "Prickly pear", otherNames: "Cactus pear / Opuntia fruit", image: fruitImage47.url },
+    { name: "Passion Fruit", englishName: "Passion fruit", otherNames: "Passionfruit", image: fruitImage48.url },
+    { name: "Pecan nut", englishName: "Pecan", otherNames: "Pecan nut", image: fruitImage49.url },
+    { name: "Persimmon", englishName: "Persimmon", otherNames: "Japanese persimmon (cultivated type)", image: fruitImage50.url },
+    { name: "Phalsa", englishName: "Phalsa", otherNames: "Falsa / Indian sherbet berry", image: fruitImage51.url },
+    { name: "Rambutan", englishName: "Rambutan", otherNames: "Rambutan", image: fruitImage52.url },
+    { name: "Sea Buckthorn", englishName: "Sea buckthorn", otherNames: "Seaberry", image: fruitImage53.url },
+    { name: "Tamarind", englishName: "Tamarind", otherNames: "Imli", image: fruitImage54.url },
+    { name: "Wood Apple", englishName: "Wood apple", otherNames: "Kaitha / Kavit", image: fruitImage55.url }
     ],
   },
 ];
