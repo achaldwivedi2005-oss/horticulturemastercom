@@ -11,6 +11,8 @@ import { PdfViewerDialog } from "@/components/materials/PdfViewerDialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { site } from "@/lib/site";
+import { isHorticultureMasterNote } from "@/lib/drive/material-groups";
 
 export const Route = createFileRoute("/materials")({
   head: () => ({
@@ -144,8 +146,18 @@ function MaterialsPage() {
               <p className="mb-4 text-sm text-muted-foreground">
                 Showing {filtered.length} of {files.length} PDFs
               </p>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {filtered.map((f, i) => (
+              <div className="grid gap-8 md:grid-cols-2">
+                {[
+                  { title: site.materialColumns.notes, items: filtered.filter(isHorticultureMasterNote) },
+                  { title: site.materialColumns.books, items: filtered.filter((f) => !isHorticultureMasterNote(f)) },
+                ].map((column) => (
+                  <section key={column.title} className="min-w-0" aria-label={column.title}>
+                    <h2 className="mb-5 border-b border-border pb-4 text-2xl">{column.title} <span className="text-sm font-sans text-muted-foreground">({column.items.length})</span></h2>
+                    {column.items.length === 0 ? (
+                      <p className="py-8 text-sm text-muted-foreground">{query || subject !== "All" || collection !== "All" ? "No matching PDFs in this collection." : "Notes coming soon."}</p>
+                    ) : (
+                    <div className="grid gap-4 xl:grid-cols-2">
+                {column.items.map((f, i) => (
                   <Reveal key={f.id} delay={(i % 6) * 50}>
                     <article className="card-lift group flex h-full flex-col rounded-2xl border border-border bg-card p-5">
                       <div className="flex items-start gap-3">
@@ -190,6 +202,10 @@ function MaterialsPage() {
                       </div>
                     </article>
                   </Reveal>
+                ))}
+                    </div>
+                    )}
+                  </section>
                 ))}
               </div>
             </>

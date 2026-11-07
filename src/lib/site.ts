@@ -25,6 +25,10 @@ export const site = {
    */
   /** Public Google Drive folder whose PDFs power the study material library. */
   driveFolderId: "1rUg6IsLG_h_UiHdpFfrV4JVMUqajaMQ2",
+  materialColumns: {
+    notes: "Horticulture Master notes",
+    books: "Other books",
+  },
   social: {
     telegramChannel: "https://t.me/Horticulturemaster",
     telegramGroup: "https://t.me/horticulturmasterquiz",
