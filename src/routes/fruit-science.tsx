@@ -49,6 +49,8 @@ function FruitSciencePage() {
                   </div>
                   <div className="flex flex-1 flex-col gap-2 p-3">
                     <p className="font-semibold leading-snug">{f.name}</p>
+                    <p className="text-xs leading-relaxed text-muted-foreground"><span className="font-medium text-foreground">English:</span> {f.englishName}</p>
+                    <p className="text-xs leading-relaxed text-muted-foreground"><span className="font-medium text-foreground">{f.otherNames.startsWith("Examples:") ? "Crop examples:" : "Also known as:"}</span> {f.otherNames.replace(/^Examples:\s*/, "")}</p>
                     <StatusBadge status="soon" label="Notes soon" />
                   </div>
                 </div>

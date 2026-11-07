@@ -17,3 +17,4 @@
 - Dark mode = `.dark` class on `<html>`, set pre-hydration by `themeInitScript` and toggled by `ThemeToggle` (localStorage key `hm-theme`).
 - Exam/counselling/news posts live in the `exam_updates` table (admin-managed via RLS `has_role`), separate from scanned `job_postings`, because they are hand-verified notices rather than scraped vacancies.
 - Split the materials library using explicit Horticulture Master branding in file/folder names; keep every other PDF in Other books to avoid misattributing authorship.
+- Keep fruit names, aliases and photo pointers together in the shared fruit catalogue; downloaded photos use Lovable Assets to avoid third-party image dependencies.
