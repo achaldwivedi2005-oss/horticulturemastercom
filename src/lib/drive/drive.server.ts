@@ -4,6 +4,10 @@ const GATEWAY = "https://connector-gateway.lovable.dev/google_drive/drive/v3";
 const FOLDER_MIME = "application/vnd.google-apps.folder";
 const MAX_DEPTH = 4;
 const MAX_FILES = 1000;
+const CACHE_MS = 5 * 60_000;
+const MAX_STALE_MS = 15 * 60_000;
+const libraryCache = new Map<string, { files: DrivePdf[]; verifiedAt: number }>();
+const pendingLibraries = new Map<string, Promise<DrivePdf[]>>();
 
 export type DrivePdf = {
   id: string;
@@ -43,7 +47,7 @@ async function listChildren(folderId: string, headers: HeadersInit): Promise<Raw
     if (!res.ok) {
       const body = await res.text();
       console.error(`Drive list failed [${res.status}]: ${body}`);
-      throw new Error(`Drive request failed (${res.status})`);
+      throw new Error(`Drive request failed (${res.status}): ${body}`);
     }
     const data = (await res.json()) as { files?: RawFile[]; nextPageToken?: string };
     out.push(...(data.files ?? []));
@@ -57,6 +61,29 @@ async function listChildren(folderId: string, headers: HeadersInit): Promise<Raw
  * Files not shared as "anyone with the link" are skipped so private files never leak.
  */
 export async function listDrivePdfs(rootFolderId: string): Promise<DrivePdf[]> {
+  const cached = libraryCache.get(rootFolderId);
+  if (cached && Date.now() - cached.verifiedAt < CACHE_MS) return cached.files;
+  const pending = pendingLibraries.get(rootFolderId);
+  if (pending) return pending;
+  const refresh = readDrivePdfs(rootFolderId)
+    .then((files) => {
+      libraryCache.set(rootFolderId, { files, verifiedAt: Date.now() });
+      return files;
+    })
+    .catch((error: unknown) => {
+      // Only reuse recently verified public files; never retain access indefinitely.
+      if (cached && Date.now() - cached.verifiedAt < MAX_STALE_MS) {
+        console.error("Drive refresh failed; using recently verified library", error);
+        return cached.files;
+      }
+      throw error;
+    })
+    .finally(() => pendingLibraries.delete(rootFolderId));
+  pendingLibraries.set(rootFolderId, refresh);
+  return refresh;
+}
+
+async function readDrivePdfs(rootFolderId: string): Promise<DrivePdf[]> {
   const lovableKey = process.env["LOVABLE_API_KEY"];
   const driveKey = process.env["GOOGLE_DRIVE_API_KEY"];
   if (!lovableKey || !driveKey) throw new Error("Google Drive is not connected");

@@ -47,7 +47,7 @@ function formatSize(bytes: number | null) {
 }
 
 function MaterialsPage() {
-  const { data, isLoading } = useQuery(driveLibraryQuery);
+  const { data, isLoading, isError, isFetching, refetch } = useQuery(driveLibraryQuery);
   const files = data?.files ?? [];
   const [query, setQuery] = useState("");
   const [subject, setSubject] = useState<string>("All");
@@ -137,8 +137,15 @@ function MaterialsPage() {
             <div className="flex items-center justify-center gap-2 py-20 text-muted-foreground">
               <Loader2 className="size-5 animate-spin" /> Loading library…
             </div>
-          ) : data?.error ? (
-            <EmptyState icon={AlertCircle} title="Library unavailable" description={data.error} />
+          ) : data?.error || isError ? (
+            <div>
+              <EmptyState icon={AlertCircle} title="Library temporarily unavailable" description="Google Drive is temporarily busy. Please try again shortly." />
+              <div className="flex justify-center">
+                <Button onClick={() => void refetch()} disabled={isFetching}>
+                  {isFetching ? <Loader2 className="animate-spin" /> : <FolderOpen />} Try again
+                </Button>
+              </div>
+            </div>
           ) : filtered.length === 0 ? (
             <EmptyState icon={FileText} title="No matching PDFs" description="Try another search term or filter." />
           ) : (
