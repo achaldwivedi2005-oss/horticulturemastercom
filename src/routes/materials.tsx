@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
 import { isHorticultureMasterNote } from "@/lib/drive/material-groups";
+import { FruitCropsGrid } from "@/components/site/FruitCropsGrid";
 
 export const Route = createFileRoute("/materials")({
   head: () => ({
@@ -219,6 +220,14 @@ function MaterialsPage() {
           )}
         </div>
       </section>
+
+      <div id="fruit-science" className="border-t border-border">
+        <div className="container-page pt-10 md:pt-14">
+          <h2 className="text-3xl">Fruit Science crops</h2>
+          <p className="mt-2 text-sm text-muted-foreground">All fruit crops with English names, other names and photos. Crop-wise notes coming soon.</p>
+        </div>
+        <FruitCropsGrid />
+      </div>
 
       <PdfViewerDialog file={viewing} onClose={() => setViewing(null)} />
     </>
