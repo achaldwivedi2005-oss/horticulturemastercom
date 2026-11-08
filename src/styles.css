@@ -306,3 +306,26 @@
   }
   @media (prefers-reduced-motion: reduce) { animation: none; &::after { display: none; } }
 }
+
+/* Premium gold notes card: white+gold in light, black+gold in dark */
+:root { --gold-surface: oklch(1 0 0); --gold-ink: oklch(0.58 0.13 75); --gold-edge: oklch(0.78 0.14 82); }
+.dark { --gold-surface: oklch(0.13 0 0); --gold-ink: oklch(0.84 0.14 85); --gold-edge: oklch(0.8 0.14 85); }
+@keyframes hm-logo-glow {
+  0%,100% { box-shadow: 0 0 10px 2px color-mix(in oklab, var(--gold-edge) 40%, transparent); }
+  50% { box-shadow: 0 0 30px 10px color-mix(in oklab, var(--gold-edge) 75%, transparent); }
+}
+@utility gold-card {
+  background: var(--gold-surface);
+  color: var(--gold-ink);
+  border: 2px solid var(--gold-edge);
+  box-shadow: 0 12px 40px -14px color-mix(in oklab, var(--gold-edge) 60%, transparent);
+}
+@utility logo-shine {
+  position: relative; overflow: hidden; border-radius: 9999px;
+  animation: hm-logo-glow 2.4s ease-in-out infinite;
+  &::after {
+    content: ""; position: absolute; inset: 0; width: 40%;
+    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--gold-surface) 85%, transparent), transparent);
+    animation: hm-shine 2.8s ease-in-out infinite;
+  }
+}
