@@ -285,3 +285,24 @@
     scroll-behavior: auto;
   }
 }
+
+@keyframes hm-shine { 0% { transform: translateX(-120%) skewX(-20deg); } 60%,100% { transform: translateX(220%) skewX(-20deg); } }
+@keyframes hm-pulse-glow {
+  0%,100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--sun) 0%, transparent), var(--shadow-glow); }
+  50% { box-shadow: 0 0 28px 4px color-mix(in oklab, var(--sun) 55%, transparent), var(--shadow-glow); }
+}
+@utility shine-card {
+  position: relative;
+  overflow: hidden;
+  animation: hm-pulse-glow 2.8s ease-in-out infinite;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary-foreground) 45%, transparent), transparent);
+    animation: hm-shine 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) { animation: none; &::after { display: none; } }
+}
