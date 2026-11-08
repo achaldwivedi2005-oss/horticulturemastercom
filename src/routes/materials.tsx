@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { site } from "@/lib/site";
 import { isHorticultureMasterNote } from "@/lib/drive/material-groups";
 import { FruitCropsGrid } from "@/components/site/FruitCropsGrid";
+import { NotesBranches } from "@/components/site/NotesBranches";
 
 export const Route = createFileRoute("/materials")({
   head: () => ({
@@ -134,6 +135,7 @@ function MaterialsPage() {
         </Reveal>
 
         <div className="mt-8">
+          <NotesBranches />
           {isLoading ? (
             <div className="flex items-center justify-center gap-2 py-20 text-muted-foreground">
               <Loader2 className="size-5 animate-spin" /> Loading library…
