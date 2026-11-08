@@ -18,6 +18,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FruitScienceRouteImport } from './routes/fruit-science'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as MaterialsRouteImport } from './routes/materials'
+import { Route as NotesRouteImport } from './routes/notes'
 import { Route as QuizzesRouteImport } from './routes/quizzes'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as UpdatesRouteImport } from './routes/updates'
@@ -71,6 +72,11 @@ const MaterialsRoute = MaterialsRouteImport.update({
   path: '/materials',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotesRoute = NotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuizzesRoute = QuizzesRouteImport.update({
   id: '/quizzes',
   path: '/quizzes',
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/fruit-science': typeof FruitScienceRoute
   '/jobs': typeof JobsRoute
   '/materials': typeof MaterialsRoute
+  '/notes': typeof NotesRoute
   '/quizzes': typeof QuizzesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/updates': typeof UpdatesRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/fruit-science': typeof FruitScienceRoute
   '/jobs': typeof JobsRoute
   '/materials': typeof MaterialsRoute
+  '/notes': typeof NotesRoute
   '/quizzes': typeof QuizzesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/updates': typeof UpdatesRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/fruit-science': typeof FruitScienceRoute
   '/jobs': typeof JobsRoute
   '/materials': typeof MaterialsRoute
+  '/notes': typeof NotesRoute
   '/quizzes': typeof QuizzesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/updates': typeof UpdatesRoute
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/fruit-science'
     | '/jobs'
     | '/materials'
+    | '/notes'
     | '/quizzes'
     | '/reset-password'
     | '/updates'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/fruit-science'
     | '/jobs'
     | '/materials'
+    | '/notes'
     | '/quizzes'
     | '/reset-password'
     | '/updates'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/fruit-science'
     | '/jobs'
     | '/materials'
+    | '/notes'
     | '/quizzes'
     | '/reset-password'
     | '/updates'
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   FruitScienceRoute: typeof FruitScienceRoute
   JobsRoute: typeof JobsRoute
   MaterialsRoute: typeof MaterialsRoute
+  NotesRoute: typeof NotesRoute
   QuizzesRoute: typeof QuizzesRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   UpdatesRoute: typeof UpdatesRoute
@@ -307,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/materials'
       fullPath: '/materials'
       preLoaderRoute: typeof MaterialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notes': {
+      id: '/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof NotesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quizzes': {
@@ -393,6 +413,7 @@ const rootRouteChildren: RootRouteChildren = {
   FruitScienceRoute: FruitScienceRoute,
   JobsRoute: JobsRoute,
   MaterialsRoute: MaterialsRoute,
+  NotesRoute: NotesRoute,
   QuizzesRoute: QuizzesRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   UpdatesRoute: UpdatesRoute,
