@@ -26,7 +26,7 @@ Spec reference: user's "PROJECT OBJECTIVE — Advanced Intelligence, RAG chatbot
 - [ ] NBPGR + ASRB pages time out from our server (may need Firecrawl)
 
 ## Next (from spec)
-- [ ] Fix Study Materials disappearing during temporary Drive failures
+- [x] Fix Study Materials disappearing during temporary Drive failures
 - [x] Add Horticulture Master notes / Other books columns without removing PDFs or controls
 - [x] Complete fruit English/common names and photos from the supplied list
 - [ ] Expand monitored sources: NHB, MIDH, agriwelfare, PIB, NABARD, NSC, more ICAR institutes, SAUs, state PSCs
