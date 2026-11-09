@@ -1,0 +1,596 @@
+import type { NoteSection } from "./types";
+
+/** Full JRF notes for Apple — server-only; delivered only to students with trial or membership. */
+export const appleFull: NoteSection[] = [
+  {
+    id: "intro",
+    title: "01 · Introduction, History & Economic Overview",
+    blocks: [
+      {
+        type: "list",
+        items: [
+          "Botanical identity: *Malus × domestica* Borkh. — Family Rosaceae, Subfamily Pomoideae (Maloideae).",
+          "Origin: Asia Minor to Western Himalaya; Central Asia (Kazakhstan, Tian Shan) holds maximum genetic diversity.",
+          "Wild progenitor: *Malus sieversii*, with gene flow from *M. sylvestris*, *M. baccata* and *M. orientalis*.",
+          "Titles: 'King of Temperate Fruits', 'Premier Fruit of the World'; Himachal Pradesh is the 'Apple Bowl of India'.",
+          "'An apple a day keeps the doctor away' — a Welsh proverb (printed 1866); often wrongly credited to Benjamin Franklin.",
+        ],
+      },
+      {
+        type: "table",
+        title: "Historical milestones",
+        head: ["Year", "Event"],
+        rows: [
+          ["1759–1838", "Thomas Andrew Knight — father of controlled apple breeding; first cultivar of known parentage"],
+          ["1820", "Apple first introduced in India at Ooty (Nilgiris, Tamil Nadu)"],
+          ["1860", "First commercial orchard in Kullu Valley (H.P.) by Capt. R.C. Scott"],
+          ["1870", "Capt. R.C. Scott introduced self-compatible green cultivars into Kullu"],
+          ["1916", "Samuel N. Stokes introduced the red 'Delicious' group to Kotgarh (Shimla) from USA"],
+          ["2016", "'Kanwar Majholi Selection-1' found as a bud mutation of Red Delicious by farmer Joginder Singh Kanwar"],
+        ],
+      },
+      {
+        type: "list",
+        title: "Key institutes",
+        items: [
+          "ICAR-CITH (Central Institute of Temperate Horticulture), Srinagar, J&K — apex ICAR temperate institute.",
+          "Dr. YS Parmar University of Horticulture & Forestry, Nauni, Solan (H.P.).",
+          "SKUAST-Kashmir, Srinagar — Shalimar, Firdous and Shireen series.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "stats",
+    title: "02 · Area, Production & Productivity",
+    blocks: [
+      {
+        type: "list",
+        title: "Global scenario",
+        items: [
+          "World production: ~85–95 million tonnes per year.",
+          "Top producers: China (~45–50%), USA, Türkiye, Poland, India (~5th–6th).",
+          "European high-density orchards (Italy, Netherlands) yield 40–60 t/ha.",
+        ],
+      },
+      {
+        type: "table",
+        title: "State-wise apple in India (approximate, recent years)",
+        head: ["State / UT", "Area", "Production", "Productivity"],
+        rows: [
+          ["Jammu & Kashmir", "~1.65 lakh ha (≈52%)", "~1.7–2.0 MMT (≈70–75%)", "~10.5–11.5 t/ha (highest)"],
+          ["Himachal Pradesh", "~1.15 lakh ha (≈36%)", "~0.45–0.65 MMT (≈20–25%)", "~4–5 t/ha"],
+          ["Uttarakhand", "~25,000 ha (≈8%)", "~0.06–0.08 MMT", "~2.5–3.2 t/ha"],
+          ["Ladakh, Arunachal, Nagaland", "~10,000 ha", "~0.03–0.05 MMT", "~2.5–3.5 t/ha"],
+          ["India total", "~3.1 lakh ha", "~2.3–2.5 MMT", "~7.5–8.5 t/ha"],
+        ],
+      },
+      {
+        type: "callout",
+        tone: "alert",
+        title: "Why productivity is low in India",
+        items: [
+          "Old, senile orchards on seedling rootstocks at wide spacing (6 × 6 m or more).",
+          "Too few pollinizers (often <10% vs 11–33% needed).",
+          "Moisture stress in April–August; poor irrigation in rain-fed hills.",
+          "Premature leaf fall (*Marssonina* blotch) and poor orchard sanitation.",
+          "Late spring frost and hail during bloom.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "morphology",
+    title: "03 · Fruit Morphology & Anatomy",
+    blocks: [
+      { type: "p", text: "Apple is a **pome** — a false (accessory) fruit. Most of the edible flesh comes from the swollen floral tube (thalamus / hypanthium), not from the ovary wall." },
+      { type: "diagram", name: "pome" },
+      {
+        type: "table",
+        head: ["Part", "Layer", "Description"],
+        rows: [
+          ["Thalamus / Hypanthium", "Edible flesh", "Fused bases of sepals, petals and stamens; >80% of fruit mass"],
+          ["Exocarp (peel)", "Skin", "Epidermis with waxy cuticle, lenticels and anthocyanin cells"],
+          ["Mesocarp", "Inner flesh", "Parenchyma rich in sorbitol, fructose and malic acid"],
+          ["Endocarp (core wall)", "Cartilaginous", "Parchment-like wall around the 5 carpels"],
+          ["Carpels / locules", "Ovary", "5 chambers in a star pattern"],
+          ["Seeds (pips)", "Seed", "Max 2 per carpel (10 per fruit); contain amygdalin"],
+          ["Vascular ring (core line)", "Bundles", "Boundary between thalamus and carpel tissue"],
+          ["Stem cavity & pedicel", "Base", "Pedicel joins fruit to spur"],
+          ["Calyx basin & eye", "Apex", "Dried sepals, stamens and styles"],
+        ],
+      },
+    ],
+  },
+  {
+    id: "varieties",
+    title: "04 · Apple Varieties",
+    blocks: [
+      {
+        type: "list",
+        title: "A. Low-chill cultivars (warm / sub-tropical plains)",
+        items: [
+          "**HRMN-99** — selection by Padma Shri awardee Hariman Sharma (Bilaspur, H.P.); registered with PPV&FRA; self-fertile; fruits in plains of UP, Bihar, Punjab, Haryana, MP, Maharashtra, Karnataka.",
+          "**Anna** — Israel; very precocious, conical, red over greenish-yellow; ~200–300 chill hrs.",
+          "**Dorsett Golden** — Bahamas; early (late May–June); yellow with red blush; best pollinizer for Anna.",
+          "**Tropic Sweet** — Florida, USA; sweet, firm, red stripe on yellow; compatible with Anna and Dorsett Golden.",
+          "Other low-chill: Michal, Maayan, Schlomit (Israel).",
+        ],
+      },
+      {
+        type: "list",
+        title: "B. Coloured & spur strains for high-density planting",
+        items: [
+          "Spur types: Red Chief, Oregon Spur, Super Chief, Scarlet Spur, Vance Delicious.",
+          "**Fuji Zehn Aztec / early Fuji strains** — excellent in dry temperate and cold desert (Kinnaur, Leh–Ladakh); firm, sweet, long storage.",
+          "Gala strains: Royal Gala, Galaxy, Brookfield Gala, Buckeye Gala — early colour, HDP-friendly.",
+        ],
+      },
+      {
+        type: "list",
+        title: "C. Indian selections & releases",
+        items: [
+          "**CITH Lodh Apple-1** — clonal selection from Red Delicious (ICAR-CITH); precocious, regular; 28–32 t/ha; TSS 13.6°B; firmness 8.5 kg/cm².",
+          "**CITH-Ammol** — early selection from CITH-Ambri-1 × Mollies Delicious.",
+          "**Firdous** (Golden Delicious × Prima × Rome Beauty) and **Shireen** — SKUAST-K; scab resistant.",
+          "**Shalimar Apple-1 & 2** — scab-resistant releases for J&K.",
+        ],
+      },
+      {
+        type: "list",
+        title: "D. Global & biotech cultivars",
+        items: [
+          "**Cosmic Crisp (WA 38)** — Washington State University; Honeycrisp × Enterprise; very crisp; stores up to 12 months in CA.",
+          "**Arctic Apple** — GM non-browning; PPO (polyphenol oxidase) genes silenced by RNAi.",
+          "**Modi** (Liberty × Gala) — scab tolerant; introduced to India from Italy (2018).",
+          "**Papple** — apple × pear intergeneric hybrid.",
+        ],
+      },
+      {
+        type: "list",
+        title: "E. Indigenous, mutants & pollinizers",
+        items: [
+          "**Ambri** — native Kashmiri; best aroma and longest shelf life; late flowering; high chill.",
+          "**Maharaji** — late cultivar with white-dotted skin.",
+          "Red Delicious bud sports: Starking Delicious, Top Red, Red Chief.",
+          "Green apple: Granny Smith · Very sweet: Fuji.",
+          "Pollinizers for Delicious group: Golden Delicious, Red Gold, Tydeman's Early Worcester.",
+          "Colour pollinizers: Gloster, Spartan, Summer Queen, Scarlet Gala, Gale Gala.",
+          "Late-season pollinizers: Granny Smith, Yellow Newtown, Cox's Orange Pippin.",
+          "Smoothee — russet-free yellow pollinizer.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "botany",
+    title: "05 · Temperate Botany & Family Profiles",
+    blocks: [
+      {
+        type: "table",
+        title: "Rosaceae subfamilies",
+        head: ["Subfamily", "2n", "Crops", "Fruit / Edible part", "Growth"],
+        rows: [
+          ["Pomoideae", "34", "Apple, pear, quince, loquat", "Pome / thalamus", "Single sigmoid"],
+          ["Prunoideae", "16", "Peach, plum, cherry, apricot, almond", "Drupe / mesocarp (almond: cotyledons)", "Double sigmoid"],
+        ],
+      },
+      {
+        type: "list",
+        title: "Temperate deciduous features",
+        items: [
+          "Leaves shed in winter; dormancy Nov–Feb; broken by chilling below 7°C.",
+          "Pruning and planting done in dormant season (Dec–Jan); leafless transplants are 'whips'.",
+          "Most temperate crops are long-day plants — except strawberry (short-day).",
+        ],
+      },
+      {
+        type: "list",
+        title: "Pollination facts",
+        items: [
+          "Gametophytic self-incompatibility (S-RNase) in temperate Rosaceae — except peach (self-compatible).",
+          "Dioecious: kiwifruit, pistachio · Heterostyly: almond · Heterodichogamy: pecan, pistachio · Duo-dichogamy: chestnut, rambutan.",
+          "Protogyny: pear, plum.",
+        ],
+      },
+      {
+        type: "callout",
+        tone: "gold",
+        title: "Xenia vs Metaxenia",
+        items: [
+          "Xenia — pollen directly affects seed/endosperm traits (e.g. pistachio, maize).",
+          "Metaxenia — pollen affects maternal fruit tissues: size, shape, colour, ripening time (e.g. date palm).",
+        ],
+      },
+    ],
+  },
+  {
+    id: "species",
+    title: "06 · *Malus* Species & Hybrids",
+    blocks: [
+      {
+        type: "list",
+        title: "Taxonomy",
+        items: [
+          "Genus *Malus* proposed by Miller (1768) — *M. sylvestris*, *M. pumila*, *M. coronaria*.",
+          "*M. communis* named by Lamarck (1790); *Malus domestica* by Borkhausen (1803).",
+          "Cultivated apple is an interspecific hybrid; genome sequenced (2010, 'Golden Delicious') by whole-genome shotgun.",
+          "*M. × soulardii* — natural hybrid of *M. sylvestris* × *M. ioensis*.",
+        ],
+      },
+      {
+        type: "list",
+        title: "Ploidy & apomixis",
+        items: [
+          "Diploid: most cultivars (2n = 34) · Triploid: 2n = 51 (Jonagold, Mutsu, Gravenstein; *M. sikkimensis*) · Tetraploid: *M. sargentii*.",
+          "Apomictic species: *M. hupehensis*, *M. sikkimensis*, *M. sargentii*, *M. toringoides*, *M. sieboldii*, *M. coronaria* — give true-to-type rootstock seedlings.",
+        ],
+      },
+      {
+        type: "table",
+        title: "Important species",
+        head: ["Species", "Common name", "Use / feature"],
+        rows: [
+          ["*M. sieversii*", "Wild apple of Kazakhstan", "Main progenitor; sucker-free"],
+          ["*M. niedzwetzkyana*", "Red-fleshed apple", "Donor of red flesh (MdMYB10)"],
+          ["*M. prunifolia*", "Plum-leaved apple", "Cold-hardy rootstock; collar rot tolerant"],
+          ["*M. baccata* var. *himalaica*", "Shillong apple", "Hardy seedling rootstock; collar rot & mildew resistance"],
+          ["*M. micromalus*", "Midget crab apple", "Size-control source"],
+          ["*M. pumila* var. *paradisiaca*", "Paradise apple", "Dwarf, surface-rooting (M-9 lineage)"],
+          ["*M. pumila* var. *praecox*", "Doucin apple", "Semi-dwarf, deeper rooting"],
+          ["*M. tschonoskii*", "Pillar apple", "Rare, self-pollinated"],
+          ["*M. fusca*, *M. floribunda*", "—", "Fire blight resistance donors"],
+          ["*M. sylvestris*", "European crab apple", "W. Asia & SE Europe"],
+          ["*M. floribunda*", "Japanese flowering crab", "Rose-red flowers; scab (Vf) donor"],
+          ["*M. angustifolia*", "Narrow-leaved crab", "Pink flowers"],
+          ["*M. coronaria*", "American crab", "Bushy, thorny habit"],
+        ],
+      },
+      {
+        type: "table",
+        title: "Resistance & quality genes",
+        head: ["Trait", "Gene", "Donor"],
+        rows: [
+          ["Apple scab", "Vf (Rvi6)", "*M. floribunda* 821"],
+          ["Apple scab", "Vm", "*M. micromalus* / *M. atrosanguinea*"],
+          ["Apple scab", "Vr", "*M. pumila* (Russian seedling)"],
+          ["Apple scab", "Va", "Antonovka"],
+          ["Powdery mildew", "Pl-1, Pl-2", "*M. robusta*, *M. zumi*"],
+          ["Powdery mildew", "Pl-w", "White Angel (*M. baccata* type)"],
+          ["Powdery mildew", "Pl-d", "D12 / Dülmener Rosenapfel"],
+          ["Woolly apple aphid", "Er1, Er3", "Northern Spy; *M. sieboldii* 'Aotea'"],
+          ["Rosy apple aphid", "Sd / Smh", "Resistant wild lines"],
+          ["Red flesh", "MdMYB10", "*M. niedzwetzkyana*"],
+          ["Acidity", "Ma (MaMa sour, mama sweet)", "—"],
+          ["Columnar habit", "Co", "McIntosh Wijcik"],
+        ],
+      },
+      {
+        type: "table",
+        title: "Apple hybrids",
+        head: ["Hybrid", "Parentage"],
+        rows: [
+          ["Lal Ambri", "Red Delicious × Ambri"],
+          ["Sunhari", "Ambri × Golden Delicious"],
+          ["Chaubatia Anupam", "Early Shanbury × Red Delicious"],
+          ["Chaubatia Princess", "Early Shanbury × Red Delicious"],
+          ["Swarnima", "Benoni × Red Delicious"],
+          ["Ambred", "Red Delicious × Ambri"],
+          ["Ambrich", "Richared × Ambri"],
+          ["Ambroyal", "Royal Delicious × Ambri"],
+          ["Ambstarking", "Starking Delicious × Ambri"],
+          ["Jonagold", "Golden Delicious × Jonathan (triploid)"],
+          ["Shalimar Apple-1 / 2", "Sunhari × Prima / Red Delicious × Ambri"],
+          ["Pusa Gold", "Golden Delicious × Tydeman's Early"],
+          ["Pusa Amartara Pride", "Royal Delicious × Prima"],
+          ["Cosmic Crisp", "Honeycrisp × Enterprise"],
+          ["Modi", "Liberty × Gala"],
+        ],
+      },
+    ],
+  },
+  {
+    id: "climate",
+    title: "07 · Soil & Climate",
+    blocks: [
+      {
+        type: "list",
+        items: [
+          "Deep, well-drained loam rich in organic matter; pH 5.5–6.5.",
+          "Sensitive to salinity and waterlogging (causes collar rot & root rot).",
+          "Root growth starts when soil temperature exceeds 7°C.",
+          "Chilling: 1000–1600 hrs below 7°C (low-chill types 200–400 hrs).",
+          "Altitude: 1500–2700 m MSL (best 1800–2700 m).",
+          "Summer growing temperature: 21–24°C; pollen germination 21–27°C.",
+          "Bee activity drops below 15°C and stops near 4–5°C.",
+          "Bloom frost (−2 to −4°C) kills pistils.",
+          "Critical irrigation: April–August (stress → June drop, cracking).",
+        ],
+      },
+    ],
+  },
+  {
+    id: "propagation",
+    title: "08 · Propagation & Rootstocks",
+    blocks: [
+      {
+        type: "list",
+        title: "Propagation",
+        items: [
+          "Grafting: tongue (whip & tongue) grafting — 1st choice (Feb–Mar).",
+          "Budding: T-budding / chip budding — 2nd choice (June–July).",
+          "Scions collected in January from 1-year shoots; stored in moist sphagnum moss.",
+          "Seed stratification: 60–70 days at 4–6°C (Dec–Feb).",
+          "Clonal rootstocks multiplied by mound (stool) layering.",
+        ],
+      },
+      {
+        type: "list",
+        title: "Rootstock series",
+        items: [
+          "**M series (East Malling, UK):** M-9 dwarf (most used), M-26 dwarf, M-27 ultra-dwarf, M-13 wet-soil tolerant.",
+          "**MM series (Malling-Merton):** Malling × Northern Spy — resistant to woolly apple aphid; MM-106, MM-111, MM-104, MM-109.",
+          "**Merton 793:** vigorous; resistant to WAA and replant disease.",
+          "**EMLA (East Malling–Long Ashton):** virus-free M/MM (EMLA-9, EMLA-106).",
+          "**Geneva (USA):** G-11, G-41, G-935 — fire blight & *Phytophthora* resistant; replant tolerant.",
+          "**Budagovsky (Russia):** Bud-9 (M-8 × Red Standard) — dwarf + winter hardy.",
+          "**Polish:** P-2, P-16, P-22 (M-9 × Antonovka) — winter hardy.",
+          "**Drought tolerant:** MM-111 · **Collar rot susceptible:** MM-106.",
+        ],
+      },
+      { type: "diagram", name: "rootstock" },
+    ],
+  },
+  {
+    id: "orchard",
+    title: "09 · Orchard Establishment, HDP & Canopy",
+    blocks: [
+      {
+        type: "table",
+        head: ["System", "Spacing", "Rootstock", "Trees/ha"],
+        rows: [
+          ["Traditional (square)", "6 × 6 to 7.5 × 7.5 m", "Seedling", "~150–250"],
+          ["Semi-dense", "4 × 4 to 4.5 × 4.5 m", "MM-106 / M-7", "~500–625"],
+          ["High density (HDP)", "1.5–2 × 3 m", "M-9", "~1600–2222"],
+          ["Ultra HDP / Meadow", "1 × 2 m (or tighter)", "M-9 / M-27", "~5000+"],
+        ],
+      },
+      {
+        type: "list",
+        title: "Training systems",
+        items: [
+          "Modified central leader — standard for seedling and semi-vigorous trees.",
+          "Slender spindle / spindle bush — HDP on M-9.",
+          "Vertical axis (Axe central) — single stem with horizontal fruiting branches.",
+          "Tall spindle — modern super-dense system with support wires.",
+          "Tatura / V-trellis — two slanting arms for maximum light.",
+          "Meadow orchard concept proposed by J.P. Hudson.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "nutrition",
+    title: "10 · Nutrition, Pruning & PGRs",
+    blocks: [
+      {
+        type: "list",
+        title: "Fertilizer (per tree per year of age, up to 10 years)",
+        items: [
+          "N 70 g · P₂O₅ 35 g · K₂O 70 g (10-year tree: 700 : 350 : 700 g).",
+          "Full P & K + ½ N in Dec–Jan; remaining ½ N at petal fall.",
+          "FYM ~10 kg per year of age (max 100 kg).",
+        ],
+      },
+      {
+        type: "table",
+        title: "Deficiency symptoms",
+        head: ["Nutrient", "Symptom"],
+        rows: [
+          ["Calcium", "Bitter pit, cork spot"],
+          ["Boron", "Internal cork, cracking, burr knot"],
+          ["Zinc", "Rosette / little leaf"],
+          ["Iron", "Interveinal chlorosis of young leaves"],
+          ["Magnesium", "Interveinal chlorosis of old leaves"],
+          ["Copper", "Wither tip / dieback"],
+        ],
+      },
+      {
+        type: "table",
+        title: "PGRs",
+        head: ["PGR", "Dose", "Use"],
+        rows: [
+          ["GA₃", "100–200 ppm", "Seed germination"],
+          ["IBA", "2000–3000 ppm", "Rooting of layers/cuttings"],
+          ["NAA", "10–20 ppm", "Pre-harvest drop control (20–25 days before harvest); thinning"],
+          ["Carbaryl / NAA / 6-BA", "—", "Chemical fruit thinning"],
+          ["DNOC", "0.25%", "Blossom thinning"],
+          ["Ethephon", "—", "Flowering, colour, reduce alternate bearing"],
+          ["Promalin (GA₄₊₇ + 6-BA)", "—", "Typiness (elongated Delicious shape), branching"],
+          ["Paclobutrazol / Prohexadione-Ca", "—", "Growth control, fruit bud formation"],
+          ["1-MCP (SmartFresh)", "—", "Blocks ethylene; extends storage"],
+        ],
+      },
+    ],
+  },
+  {
+    id: "physiology",
+    title: "11 · Fruit Physiology & Colour",
+    blocks: [
+      {
+        type: "list",
+        items: [
+          "Inflorescence: cyme; flower epigynous; 'King bloom' (central) opens first and gives the largest fruit.",
+          "Bearing: mainly on spurs (2–3 years old wood); fruit bud is a terminal mixed bud.",
+          "Apple is a climacteric fruit.",
+        ],
+      },
+      { type: "diagram", name: "growth" },
+      {
+        type: "list",
+        title: "Colour development",
+        items: [
+          "Main red pigment: cyanidin-3-galactoside (idaein), an anthocyanin.",
+          "UV-B (280–315 nm) light is essential; high altitude gives clean UV.",
+          "Day temperature >24.5°C inhibits colour; optimum day ~15.8°C / night ~8.1°C.",
+          "Reflective mulch improves colour of lower canopy.",
+          "Bagging: double-layer paper bags 35–40 days after bloom; outer removed 1 month and inner 1 week before harvest.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "disorders",
+    title: "12 · Physiological Disorders & Problems",
+    blocks: [
+      {
+        type: "list",
+        title: "Cultivation problems",
+        items: [
+          "**Premature leaf fall** — *Marssonina coronaria* blotch; manage with mancozeb (0.3%) and 5% urea on fallen leaves.",
+          "**Replant problem (SARD)** — *Phytophthora*, *Pythium*, nematodes; use Merton 793 / Geneva rootstocks, marigold cover.",
+          "**Alternate bearing** — Baldwin, Cox's Orange Pippin, Antonovka; manage by ON-year thinning, ethephon.",
+          "**Fruit drops** — May drop (no pollination), June drop (stress), pre-harvest drop (auxin decline; NAA 10–20 ppm).",
+          "**Russeting** — humidity, rain, frost; spray GA₄₊₇, borax 0.1% + kaolin.",
+        ],
+      },
+      {
+        type: "table",
+        head: ["Disorder", "Cause", "Symptom", "Management"],
+        rows: [
+          ["Bitter pit", "Low fruit calcium", "Sunken brown pits under skin", "CaCl₂ 0.5% sprays; avoid excess N"],
+          ["Jonathan spot", "Low Ca / over-maturity", "Dark sunken lenticel spots", "CaCl₂ 0.5–0.7% 2–6 weeks pre-harvest"],
+          ["Superficial scald", "α-farnesene → conjugated trienes", "Skin browning in storage", "1-MCP, DPA, CA storage"],
+          ["Water core", "Sorbitol accumulation", "Glassy, translucent flesh", "Timely harvest; Ca sprays"],
+          ["Core flush", "Very low storage temperature", "Browning around core", "Store slightly above 0°C"],
+          ["Interveinal chlorosis", "Mg / Fe deficiency", "Yellow between veins", "MgSO₄ / FeSO₄ sprays"],
+          ["Rosette", "Zn deficiency", "Bunched small leaves", "ZnSO₄ spray"],
+        ],
+      },
+    ],
+  },
+  {
+    id: "ipm",
+    title: "13 · Diseases & Insect Pests",
+    blocks: [
+      {
+        type: "table",
+        title: "Major diseases",
+        head: ["Disease", "Pathogen", "Key point"],
+        rows: [
+          ["Apple scab", "*Venturia inaequalis*", "Olive-green lesions; Vf gene; resistant: Prima, Liberty, Freedom, Firdous, Shireen"],
+          ["Powdery mildew", "*Podosphaera leucotricha*", "White growth on shoots; Pl-1, Pl-2"],
+          ["Fire blight", "*Erwinia amylovora*", "Bacterial; 'shepherd's crook' shoots"],
+          ["Marssonina blotch", "*Diplocarpon mali*", "Premature leaf fall in H.P. & J&K"],
+          ["Crown gall", "*Agrobacterium tumefaciens*", "Galls at graft union"],
+          ["White root rot", "*Dematophora necatrix*", "White mycelial mat; tree decline"],
+          ["Collar rot", "*Phytophthora cactorum*", "Bark rot at soil line; MM-106 susceptible"],
+        ],
+      },
+      {
+        type: "list",
+        title: "Forecasting models",
+        items: ["VENTEM — apple scab", "NECTEM — Nectria canker", "PODEM — powdery mildew"],
+      },
+      {
+        type: "table",
+        title: "Insect pests",
+        head: ["Pest", "Scientific name", "Note"],
+        rows: [
+          ["San José scale", "*Quadraspidiotus perniciosus*", "Grey round scales; parasitoid *Encarsia perniciosi*"],
+          ["Woolly apple aphid", "*Eriosoma lanigerum*", "Cottony masses; parasitoid *Aphelinus mali*; MM rootstocks resistant"],
+          ["Codling moth", "*Cydia pomonella*", "Core borer; quarantine pest in Ladakh"],
+          ["European red mite", "*Panonychus ulmi*", "Leaf bronzing"],
+          ["Apple stem borer", "*Apriona cinerea*", "Bores trunk and branches"],
+        ],
+      },
+    ],
+  },
+  {
+    id: "harvest",
+    title: "14 · Harvest, Grading, Storage & Value Addition",
+    blocks: [
+      {
+        type: "list",
+        title: "Maturity indices",
+        items: [
+          "Days from full bloom: ~130–150 for Delicious.",
+          "Starch–iodine test; firmness by penetrometer; TSS by refractometer.",
+          "Internal ethylene >0.1 µL/L marks start of ripening.",
+          "Change in ground colour from green to yellowish.",
+        ],
+      },
+      {
+        type: "table",
+        title: "Size grades",
+        head: ["Grade", "Diameter", "Market"],
+        rows: [
+          ["Super large", ">85 mm", "Premium"],
+          ["Extra large", "80–85 mm", "Premium"],
+          ["Large", "75–80 mm", "Premium"],
+          ["Medium", "70–75 mm", "Commercial"],
+          ["Small", "65–70 mm", "Commercial"],
+          ["Extra small", "60–65 mm", "Commercial"],
+          ["Pittoo", "55–60 mm", "Domestic only"],
+        ],
+      },
+      {
+        type: "list",
+        title: "Storage & products",
+        items: [
+          "US grades: Extra Fancy > Fancy > No. 1 > No. 2 > No. 3 (processing).",
+          "Cold storage: −1 to 0°C, 85–90% RH, 4–6 months.",
+          "CA storage: 1–2% O₂, 1–2% CO₂, 0–2°C — up to 8–10 months (12 with 1-MCP).",
+          "Cider: fermented apple juice, 4–6% alcohol · Apple cider vinegar: 4–5% acetic acid.",
+          "Murabba, juice concentrate, jam, dried chips.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "breeding",
+    title: "15 · Breeding & Genetics",
+    blocks: [
+      {
+        type: "list",
+        title: "Milestones",
+        items: [
+          "Thomas Andrew Knight — father of controlled apple breeding.",
+          "East Malling Research Station (1913, rootstock work from 1917) — first systematic rootstock programme.",
+          "Stadler (1930) — X-ray mutation breeding.",
+          "Red Elstar (1981) — red mutant of Elstar.",
+          "Genome sequence of Golden Delicious published 2010.",
+          "Fast-track breeding with early-flowering BpMADS4 transgene.",
+        ],
+      },
+      {
+        type: "table",
+        title: "Inheritance",
+        head: ["Trait", "Inheritance"],
+        rows: [
+          ["Fruit size, shape, acidity, sweetness, russet", "Polygenic"],
+          ["Compact habit, cold hardiness", "Polygenic"],
+          ["Powdery mildew resistance", "Pl-1, Pl-2 (*M. zumi*, *M. robusta*)"],
+          ["Red shoot colour", "Monogenic dominant"],
+          ["Cream-yellow flesh", "Single dominant gene"],
+          ["Skin stripes", "Monogenic dominant"],
+          ["Flower colour", "3 independent loci (A, B, C)"],
+          ["Skin colour", "Yellow dominant over green; red controlled by 2 dominant genes"],
+          ["Columnar habit", "Single dominant gene Co"],
+          ["Scab resistance", "Vf from *M. floribunda* 821"],
+        ],
+      },
+      {
+        type: "callout",
+        tone: "green",
+        title: "References",
+        items: [
+          "Bose, Mitra & Sanyal — Fruits: Tropical and Subtropical.",
+          "Chadha, K.L. — Handbook of Horticulture, ICAR.",
+          "Kumar & Kamra — Ready Reckoner of Pomology.",
+          "Official ICAR, NHB and university publications.",
+        ],
+      },
+    ],
+  },
+];
