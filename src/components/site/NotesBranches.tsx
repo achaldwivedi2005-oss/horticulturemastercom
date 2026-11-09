@@ -9,7 +9,6 @@ export const branches = [
   { name: "Floriculture", icon: Flower2 },
   { name: "Medicinal, Plantation & Spice Crops", icon: Leaf },
   { name: "Postharvest Technology", icon: Package },
-  { name: "General Horticulture", icon: Sprout },
 ];
 
 /** Big gold card in Study Materials that opens the notes page. */
@@ -30,6 +29,13 @@ export function NotesBranches() {
 
 export function BranchList() {
   return (
+    <div>
+    <div className="mb-4 flex items-center gap-3 rounded-2xl border border-border bg-secondary p-4">
+      <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-card text-primary">
+        <Sprout className="size-5" />
+      </span>
+      <h2 className="font-display text-xl font-extrabold sm:text-2xl">General Horticulture</h2>
+    </div>
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {branches.map((b, i) => {
         const inner = (
@@ -48,6 +54,7 @@ export function BranchList() {
           <div key={b.name} className={cls}>{inner}</div>
         );
       })}
+    </div>
     </div>
   );
 }

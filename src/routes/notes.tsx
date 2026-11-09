@@ -5,10 +5,10 @@ import { BranchList } from "@/components/site/NotesBranches";
 export const Route = createFileRoute("/notes")({
   head: () => ({
     meta: [
-      { title: "Horticulture Master Notes — 6 Branches" },
-      { name: "description", content: "Official Horticulture Master notes for ICAR JRF, SRF and competitive exams across six horticulture branches." },
-      { property: "og:title", content: "Horticulture Master Notes — 6 Branches" },
-      { property: "og:description", content: "Fruit, vegetable, floriculture, plantation & spices, postharvest and general horticulture notes." },
+      { title: "Horticulture Master Notes — 5 Branches" },
+      { name: "description", content: "Official Horticulture Master notes for ICAR JRF, SRF and competitive exams across five horticulture branches." },
+      { property: "og:title", content: "Horticulture Master Notes — 5 Branches" },
+      { property: "og:description", content: "Fruit, vegetable, floriculture, plantation & spices, and postharvest notes under General Horticulture." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
