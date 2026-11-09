@@ -20,7 +20,7 @@ export function NotesBranches() {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block font-display text-2xl font-extrabold sm:text-4xl">Horticulture Master Notes</span>
-        <span className="mt-1 block text-sm font-medium opacity-80">6 branches · Tap to open</span>
+        <span className="mt-1 block text-sm font-medium opacity-80">5 branches · Tap to open</span>
       </span>
       <ChevronRight className="size-7 shrink-0" />
     </Link>
