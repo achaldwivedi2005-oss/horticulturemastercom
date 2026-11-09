@@ -1,13 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import logoMark from "@/assets/logo-mark.png.asset.json";
-import logoFull from "@/assets/logo-full.png.asset.json";
 import { cn } from "@/lib/utils";
 
 /** Leaf-and-crown mark cropped from the official Horticulture Master logo. */
 export function LogoMark({ className }: { className?: string | undefined }) {
   return (
     <img
-      src={logoMark.url}
+      src="/logo-mark.png"
       alt=""
       width={256}
       height={256}
@@ -20,7 +18,7 @@ export function LogoMark({ className }: { className?: string | undefined }) {
 export function LogoBadge({ className }: { className?: string | undefined }) {
   return (
     <img
-      src={logoFull.url}
+      src="/logo.png"
       alt="Horticulture Master logo"
       width={640}
       height={640}
