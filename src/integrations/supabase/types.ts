@@ -408,6 +408,27 @@ export type Database = {
         }
         Relationships: []
       }
+      note_access: {
+        Row: {
+          created_at: string
+          premium_until: string | null
+          trial_started_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          premium_until?: string | null
+          trial_started_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          premium_until?: string | null
+          trial_started_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
